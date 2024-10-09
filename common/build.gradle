@@ -5,6 +5,8 @@ plugins {
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+
+    implementation "mysticdrew:common-networking-common:${project.common_network_version}"
 }
 
 base.archivesName.set("${base.archivesName}-common")

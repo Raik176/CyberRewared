@@ -12,7 +12,6 @@ import java.util.List;
 
 public class ItemRegistry {
     public static List<Item> modItems = new ArrayList<>();
-    public static Item TEST = register("test",new Item(new Item.Settings()));
 
     public static Item register(String path, Item entry) {
         modItems.add(entry);

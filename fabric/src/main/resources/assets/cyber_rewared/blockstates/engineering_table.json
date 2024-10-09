@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,half=lower": {
+      "model": "cyber_rewared:block/engineering_table"
+    },
+    "facing=east,half=lower": {
+      "y": 90,
+      "model": "cyber_rewared:block/engineering_table"
+    },
+    "facing=south,half=lower": {
+      "y": 180,
+      "model": "cyber_rewared:block/engineering_table"
+    },
+    "facing=west,half=lower": {
+      "y": 270,
+      "model": "cyber_rewared:block/engineering_table"
+    },
+    "facing=north,half=upper": {
+      "y": 180,
+      "model": "cyber_rewared:block/engineering_table_top"
+    },
+    "facing=east,half=upper": {
+      "y": 270,
+      "model": "cyber_rewared:block/engineering_table_top"
+    },
+    "facing=south,half=upper": {
+      "model": "cyber_rewared:block/engineering_table_top"
+    },
+    "facing=west,half=upper": {
+      "y": 90,
+      "model": "cyber_rewared:block/engineering_table_top"
+    }
+  }
+}

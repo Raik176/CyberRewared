@@ -3,15 +3,24 @@ plugins {
 }
 
 dependencies {
-    dependencies {
-        implementation project(path: ":common", configuration: "namedElements")
-    }
+    implementation project(path: ":common", configuration: "namedElements")
 
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    modImplementation "mysticdrew:common-networking-fabric:${project.common_network_version}"
+}
+
+loom {
+    runs {
+        client {
+            vmArgs "-XX:+AllowEnhancedClassRedefinition"
+            client()
+        }
+    }
 }
 
 fabricApi {

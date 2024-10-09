@@ -1,0 +1,23 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "cyber_rewared:block/blueprint_archive",
+      "uvlock": true
+    },
+    "facing=east": {
+      "model": "cyber_rewared:block/blueprint_archive",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south": {
+      "model": "cyber_rewared:block/blueprint_archive",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west": {
+      "model": "cyber_rewared:block/blueprint_archive",
+      "y": 270,
+      "uvlock": true
+    }
+  }
+}

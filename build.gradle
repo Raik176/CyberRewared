@@ -12,9 +12,16 @@ allprojects {
 subprojects {
     apply plugin: "java"
 
+    repositories {
+        maven {
+            name = "Common Network"
+            url = "https://jm.gserv.me/repository/maven-public/"
+        }
+    }
+
     processResources {
         var expandProps = [
-                version: project.version
+            version: project.version
         ]
 
         filesMatching("fabric.mod.json") {
