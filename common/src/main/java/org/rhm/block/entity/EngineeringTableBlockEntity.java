@@ -19,7 +19,7 @@ import org.rhm.registries.BlockEntityRegistry;
 import org.rhm.util.ImplementedInventory;
 
 public class EngineeringTableBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
-    private final DefaultedList<ItemStack> items = DefaultedList.ofSize(10, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> items = DefaultedList.ofSize(11, ItemStack.EMPTY);
 
     public EngineeringTableBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.ENGINEERING_TABLE.get(), pos, state);
@@ -50,5 +50,9 @@ public class EngineeringTableBlockEntity extends BlockEntity implements NamedScr
     @Override
     public DefaultedList<ItemStack> getItems() {
         return items;
+    }
+    @Override
+    public void contentChanged() {
+        markDirty();
     }
 }

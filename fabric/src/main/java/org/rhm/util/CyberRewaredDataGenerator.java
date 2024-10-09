@@ -1,10 +1,11 @@
-package org.rhm;
+package org.rhm.util;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.registry.RegistryWrapper;
+import org.rhm.CyberRewaredMod;
 import org.rhm.registries.BlockRegistry;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class CyberRewaredDataGenerator implements DataGeneratorEntrypoint {
 
                 builder.add(BlockRegistry.SCANNER, "Scanner");
                 builder.add(CyberRewaredMod.MOD_ID + ".gui.percent", "%1$s%% Chance");
-                builder.add(CyberRewaredMod.MOD_ID + ".gui.paper", "Insert Paper");
+                builder.add(CyberRewaredMod.MOD_ID + ".gui.insertPaper", "Insert Paper");
                 builder.add(CyberRewaredMod.MOD_ID + ".gui.toScan", "Insert Cyberware to Scan");
                 builder.add(CyberRewaredMod.MOD_ID + ".gui.scannerSayings", String.join("\n", new String[]{
                     "Reticulating Splines", "Resolving GUID Conflict", "Perturbing Matrices",
@@ -58,6 +59,9 @@ public class CyberRewaredDataGenerator implements DataGeneratorEntrypoint {
 
                 builder.add(BlockRegistry.ENGINEERING_TABLE, "Engineering Table");
                 builder.add(CyberRewaredMod.MOD_ID + ".gui.smash", "Void Warranty");
+                // this is "to Destroy" in the original but i think salvage sounds better
+                builder.add(CyberRewaredMod.MOD_ID + ".gui.insertSalvage", "Insert Cyberware to Salvage");
+                builder.add(CyberRewaredMod.MOD_ID + ".gui.insertBlueprint", "Insert Blueprint");
             }
         });
     }

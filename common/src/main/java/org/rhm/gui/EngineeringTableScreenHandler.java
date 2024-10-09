@@ -1,6 +1,7 @@
 package org.rhm.gui;
 
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -28,7 +29,7 @@ public class EngineeringTableScreenHandler extends ScreenHandler {
     private ComponentBoxBlockEntity cbbe = null;
 
     public EngineeringTableScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(syncId, playerInventory, new SimpleInventory(10), null);
+        this(syncId, playerInventory, new SimpleInventory(11), null);
     }
 
     public EngineeringTableScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, EngineeringTableBlockEntity be) {
@@ -70,7 +71,12 @@ public class EngineeringTableScreenHandler extends ScreenHandler {
                 return stack.getItem() instanceof IBlueprint;
             }
         };
-        craftingOutputSlot = new Slot(inventory, 10, 145, 21);
+        craftingOutputSlot = new Slot(inventory, 10, 145, 21) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return false;
+            }
+        };
 
         this.addSlot(salvageSlot);
         this.addSlot(paperSlot);
@@ -101,6 +107,26 @@ public class EngineeringTableScreenHandler extends ScreenHandler {
                 cbbe = lol;
             }
         }
+    }
+
+    public Slot getSalvageSlot() {
+        return salvageSlot;
+    }
+
+    public Slot getPaperSlot() {
+        return paperSlot;
+    }
+
+    public Slot[] getOutputSlots() {
+        return outputSlots;
+    }
+
+    public Slot getBlueprintSlot() {
+        return blueprintSlot;
+    }
+
+    public Slot getCraftingOutputSlot() {
+        return craftingOutputSlot;
     }
 
     public BlueprintArchiveBlockEntity getBlueprintArchive() {

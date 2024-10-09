@@ -2,11 +2,11 @@
   "parent": "block/block",
   "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
   "textures": {
-    "0": "cyberware:blocks/surgeryChamberSideTop",
-    "1": "cyberware:blocks/surgeryChamberInsideBloodyTop",
-    "2": "cyberware:blocks/surgeryChamberFrontTop",
-    "3": "cyberware:blocks/surgeryChamberTop",
-    "4": "cyberware:blocks/surgeryChamberInsideTopBloody"
+    "0": "cyber_rewared:block/surgery_chamber_side_top",
+    "1": "cyber_rewared:block/surgery_chamber_inside_bloody_top",
+    "2": "cyber_rewared:block/surgery_chamber_front_top",
+    "3": "cyber_rewared:block/surgery_chamber_top",
+    "4": "cyber_rewared:block/surgery_chamber_inside_top_bloody"
   },
   "elements": [
     {

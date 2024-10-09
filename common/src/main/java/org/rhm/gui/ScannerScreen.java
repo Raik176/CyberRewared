@@ -61,7 +61,7 @@ public class ScannerScreen extends HandledScreen<ScannerScreenHandler> {
         super.drawMouseoverTooltip(context, x, y);
         if (this.focusedSlot != null && !this.focusedSlot.hasStack()) {
             if (this.focusedSlot == handler.getPaperSlot()) {
-                context.drawTooltip(this.textRenderer, Text.translatable(CyberRewaredMod.MOD_ID + ".gui.paper"), x, y);
+                context.drawTooltip(this.textRenderer, Text.translatable(CyberRewaredMod.MOD_ID + ".gui.insertPaper"), x, y);
             } else if (this.focusedSlot == handler.getCyberPartSlot()) {
                 context.drawTooltip(this.textRenderer, Text.translatable(CyberRewaredMod.MOD_ID + ".gui.toScan"), x, y);
             }

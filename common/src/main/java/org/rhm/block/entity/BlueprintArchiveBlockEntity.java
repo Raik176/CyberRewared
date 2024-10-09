@@ -51,4 +51,8 @@ public class BlueprintArchiveBlockEntity extends BlockEntity implements NamedScr
     public DefaultedList<ItemStack> getItems() {
         return items;
     }
+    @Override
+    public void contentChanged() {
+        markDirty();
+    }
 }

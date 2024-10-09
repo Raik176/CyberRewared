@@ -8,9 +8,11 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.rhm.CyberRewaredMod;
 import org.rhm.block.entity.BlueprintArchiveBlockEntity;
+import org.rhm.block.entity.ChargerBlockEntity;
 import org.rhm.block.entity.ComponentBoxBlockEntity;
 import org.rhm.block.entity.EngineeringTableBlockEntity;
 import org.rhm.block.entity.ScannerBlockEntity;
+import org.rhm.util.IEnergyStorage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +26,7 @@ public class BlockEntityRegistry {
     public static final Map<Identifier, BlockEntityType<? extends BlockEntity>> BLOCK_ENTITY_TYPES = new HashMap<>();
     // each mod loader will loop this and then register the block entity
     public static final Map<Identifier, Map.Entry<BlockEntityFactory<? extends BlockEntity>, Block>> BLOCK_ENTITY_RAW = new HashMap<>();
+    public static final Map<Supplier<BlockEntityType<? extends BlockEntity>>, Supplier<? extends IEnergyStorage>> ENERGY_BLOCKS = new HashMap<>();
 
     public static <T extends BlockEntity> Supplier<BlockEntityType<T>> register(String path, BlockEntityFactory<T> be, Block block) {
         Identifier id = Identifier.of(CyberRewaredMod.MOD_ID, path);
@@ -32,6 +35,7 @@ public class BlockEntityRegistry {
     }
 
     public static void initialize() {
+
     }
 
     // straight from mc lol
@@ -59,5 +63,10 @@ public class BlockEntityRegistry {
         "engineering_table",
         EngineeringTableBlockEntity::new,
         BlockRegistry.ENGINEERING_TABLE
+    );
+    public static final Supplier<BlockEntityType<ChargerBlockEntity>> CHARGER = register(
+        "charger",
+        ChargerBlockEntity::new,
+        BlockRegistry.CHARGER
     );
 }

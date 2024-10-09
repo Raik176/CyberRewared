@@ -19,7 +19,7 @@ public class CyberRewaredMod {
     public static final String MOD_ID = "cyber_rewared";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final RegistryKey<ItemGroup> ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MOD_ID, "item_group"));
-    public static final ItemGroup ITEM_GROUP = ItemGroup.create(ItemGroup.Row.TOP, 0)
+    public static ItemGroup ITEM_GROUP = ItemGroup.create(ItemGroup.Row.TOP, 0)
         .icon(() -> new ItemStack(Items.DIRT))
         .displayName(Text.translatable(CyberRewaredMod.MOD_ID + ".itemGroup"))
         .build();

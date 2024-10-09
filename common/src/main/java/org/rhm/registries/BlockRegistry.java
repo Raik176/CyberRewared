@@ -8,6 +8,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.rhm.CyberRewaredMod;
 import org.rhm.block.BlueprintArchiveBlock;
+import org.rhm.block.ChargerBlock;
 import org.rhm.block.ComponentBoxBlock;
 import org.rhm.block.EngineeringTableBlock;
 import org.rhm.block.ScannerBlock;
@@ -31,6 +32,11 @@ public class BlockRegistry {
     public static final Block ENGINEERING_TABLE = register(
         "engineering_table",
         new EngineeringTableBlock(),
+        true
+    );
+    public static final Block CHARGER = register(
+        "charger",
+        new ChargerBlock(),
         true
     );
 

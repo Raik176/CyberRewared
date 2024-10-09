@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "id": "cyber_rewared",
+  "id": "${mod_id}",
   "version": "${version}",
   "name": "Cyber Rewared",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
-    "Me!"
+    "Right Hand Man"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/Raik176/CyberRewared",
+    "issues": "https://github.com/Raik176/CyberRewared/issues"
   },
   "license": "CC0-1.0",
   "icon": "assets/cyber_rewared/icon.png",
@@ -22,16 +22,16 @@
       "org.rhm.CyberRewaredFabric"
     ],
     "fabric-datagen": [
-      "org.rhm.CyberRewaredDataGenerator"
+      "org.rhm.util.CyberRewaredDataGenerator"
     ]
   },
+  "mixins": [
+    "cyber_rewared.mixins.json"
+  ],
   "depends": {
-    "fabricloader": ">=0.16.5",
-    "minecraft": "~1.21.1",
+    "fabricloader": ">=${fabric_loader_version}",
+    "minecraft": "~${minecraft_version}",
     "java": ">=21",
     "fabric-api": "*"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }

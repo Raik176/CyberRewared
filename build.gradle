@@ -1,11 +1,8 @@
 //this file is a mess
 
-version = project.mod_version
 group = project.maven_group
 
 allprojects {
-    apply plugin: "java"
-
     version = "${minecraft_version}-${mod_version}"
 }
 
@@ -17,11 +14,23 @@ subprojects {
             name = "Common Network"
             url = "https://jm.gserv.me/repository/maven-public/"
         }
+        maven {
+            name = "Spongepowered Mixin"
+            url = "https://repo.spongepowered.org/repository/maven-public/"
+        }
     }
 
     processResources {
+        if (project.name != "common") {
+            from project(":common").sourceSets.main.resources
+        }
+
         var expandProps = [
-            version: project.version
+            version: project.version,
+            mod_id: project.mod_id,
+            fabric_loader_version: project.fabric_loader_version,
+            fabric_api_version: project.fabric_api_version,
+            minecraft_version: project.minecraft_version
         ]
 
         filesMatching("fabric.mod.json") {

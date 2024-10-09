@@ -65,4 +65,8 @@ public class ScannerBlockEntity extends BlockEntity implements NamedScreenHandle
     public DefaultedList<ItemStack> getItems() {
         return items;
     }
+    @Override
+    public void contentChanged() {
+        markDirty();
+    }
 }

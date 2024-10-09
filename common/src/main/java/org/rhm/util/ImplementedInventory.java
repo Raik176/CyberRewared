@@ -124,7 +124,11 @@ public interface ImplementedInventory extends Inventory {
      */
     @Override
     default void markDirty() {
-        // Override if you want behavior.
+        contentChanged();
+    }
+
+    default void contentChanged() {
+
     }
 
     /**
