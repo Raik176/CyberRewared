@@ -67,13 +67,13 @@ public class ChargerBlockEntity extends BlockEntity implements TickableBlockEnti
     }
 
     @Override
-    public void extract(long amount) {
-        IEnergyStorage.super.extract(amount);
-        markDirty();
+    public void setEnergy(long value) {
+        energy = value;
     }
 
     @Override
-    public void setEnergy(long value) {
-        energy = value;
+    public void extract(long amount) {
+        IEnergyStorage.super.extract(amount);
+        markDirty();
     }
 }

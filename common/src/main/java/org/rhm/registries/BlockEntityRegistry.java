@@ -4,9 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.rhm.CyberRewaredMod;
@@ -15,8 +12,6 @@ import org.rhm.block.entity.ChargerBlockEntity;
 import org.rhm.block.entity.ComponentBoxBlockEntity;
 import org.rhm.block.entity.EngineeringTableBlockEntity;
 import org.rhm.block.entity.ScannerBlockEntity;
-import org.rhm.block.entity.renderer.ScannerBlockEntityRenderer;
-import org.rhm.util.IEnergyStorage;
 
 import java.util.HashMap;
 import java.util.Map;

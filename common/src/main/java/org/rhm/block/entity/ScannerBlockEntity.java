@@ -47,7 +47,6 @@ public class ScannerBlockEntity extends BlockEntity implements NamedScreenHandle
 
     @Override
     public void tick() {
-        ItemStack toDestroy = getStack(0);
 
     }
 
@@ -65,6 +64,7 @@ public class ScannerBlockEntity extends BlockEntity implements NamedScreenHandle
     public DefaultedList<ItemStack> getItems() {
         return items;
     }
+
     @Override
     public void contentChanged() {
         System.out.println("marked dirty!");

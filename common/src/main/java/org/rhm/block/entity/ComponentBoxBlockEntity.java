@@ -51,6 +51,7 @@ public class ComponentBoxBlockEntity extends BlockEntity implements NamedScreenH
     public DefaultedList<ItemStack> getItems() {
         return items;
     }
+
     @Override
     public void contentChanged() {
         markDirty();

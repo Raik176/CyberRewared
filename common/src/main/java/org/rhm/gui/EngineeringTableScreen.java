@@ -1,17 +1,12 @@
 package org.rhm.gui;
 
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.BeaconScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 import org.rhm.CyberRewaredMod;
 
 import java.util.function.Supplier;
@@ -35,6 +30,7 @@ public class EngineeringTableScreen extends HandledScreen<EngineeringTableScreen
         button = new ButtonWidget(0, 0, 21, 21, SMASH_TEXT, (widget) -> {
         }, Supplier::get) {
             boolean pressed = false;
+
             @Override
             protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
                 context.drawGuiTexture(
@@ -61,13 +57,13 @@ public class EngineeringTableScreen extends HandledScreen<EngineeringTableScreen
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        this.button.mouseClicked(mouseX,mouseY,button);
-        return super.mouseClicked(mouseX,mouseY,button);
+        this.button.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        this.button.mouseReleased(mouseX,mouseY,button);
+        this.button.mouseReleased(mouseX, mouseY, button);
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
@@ -81,12 +77,16 @@ public class EngineeringTableScreen extends HandledScreen<EngineeringTableScreen
     protected void drawMouseoverTooltip(DrawContext context, int x, int y) {
         super.drawMouseoverTooltip(context, x, y);
         if (this.button.isHovered()) {
-            context.drawTooltip(this.textRenderer,SMASH_TEXT,x,y);
+            context.drawTooltip(this.textRenderer, SMASH_TEXT, x, y);
         }
         if (focusedSlot != null && !focusedSlot.hasStack()) {
-            if (focusedSlot == handler.getPaperSlot()) context.drawTooltip(this.textRenderer,INSERT_PAPER_TEXT,x,y);
-            if (focusedSlot == handler.getSalvageSlot()) context.drawTooltip(this.textRenderer,INSERT_SALVAGE_TEXT,x,y);
-            if (focusedSlot == handler.getBlueprintSlot()) context.drawTooltip(this.textRenderer,INSERT_BLUEPRINT_TEXT,x,y);
+            if (focusedSlot == handler.getPaperSlot()) context.drawTooltip(this.textRenderer, INSERT_PAPER_TEXT, x, y);
+            if (focusedSlot == handler.getSalvageSlot()) {
+                context.drawTooltip(this.textRenderer, INSERT_SALVAGE_TEXT, x, y);
+            }
+            if (focusedSlot == handler.getBlueprintSlot()) {
+                context.drawTooltip(this.textRenderer, INSERT_BLUEPRINT_TEXT, x, y);
+            }
         }
     }
 

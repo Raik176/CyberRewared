@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "id": "${mod_id}",
   "version": "${version}",
-  "name": "Cyber Rewared",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
   "authors": [
-    "Right Hand Man"
+    "${mod_author}"
   ],
   "contact": {
     "sources": "https://github.com/Raik176/CyberRewared",
     "issues": "https://github.com/Raik176/CyberRewared/issues"
   },
-  "license": "CC0-1.0",
-  "icon": "assets/cyber_rewared/icon.png",
+  "license": "${mod_license}",
+  "icon": "assets/${mod_id}/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -26,7 +26,7 @@
     ]
   },
   "mixins": [
-    "cyber_rewared.mixins.json"
+    "${mod_id}.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",

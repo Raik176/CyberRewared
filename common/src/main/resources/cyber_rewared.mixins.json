@@ -4,13 +4,11 @@
   "package": "org.rhm.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-
   ],
   "client": [
     "CreativeInventoryScreenMixin"
   ],
   "server": [
-
   ],
   "injectors": {
     "defaultRequire": 1

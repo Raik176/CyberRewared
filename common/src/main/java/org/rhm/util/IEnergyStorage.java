@@ -17,7 +17,8 @@ public interface IEnergyStorage {
         }
     }
 
-    default void onFinal() {}
+    default void onFinal() {
+    }
 
     long getCapacity();
 

@@ -19,14 +19,6 @@ fabricApi {
     configureDataGeneration()
 }
 
-/*
-fabricApi {
-    configureDataGeneration {
-        outputDirectory.fileValue(project(":common").sourceSets.main.resources.srcDirs[0])
-    }
-}
- */
-
 tasks.runClient.dependsOn(tasks.runDatagen)
 
 base.archivesName.set("${base.archivesName}-fabric")

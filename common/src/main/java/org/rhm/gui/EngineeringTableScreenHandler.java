@@ -1,7 +1,6 @@
 package org.rhm.gui;
 
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;

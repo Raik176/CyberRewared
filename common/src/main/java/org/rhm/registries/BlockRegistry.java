@@ -47,7 +47,6 @@ public class BlockRegistry {
     );
 
 
-
     public static Block register(String path, Block entry, boolean registerItem) {
         if (registerItem) ItemRegistry.register(path, new BlockItem(entry, new Item.Settings()));
 

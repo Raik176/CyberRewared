@@ -4,12 +4,9 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
@@ -28,13 +25,14 @@ import org.rhm.util.IEnergyStorage;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
+// TODO: switch to parchment
 @SuppressWarnings("unchecked")
 public class CyberRewaredFabric implements ModInitializer, ClientModInitializer {
     @Override
     public void onInitialize() {
         CyberRewaredMod.init();
 
-        //loader specific code
+        // loader specific code
         // TODO: make this less janky
         BlockEntityRegistry.BLOCK_ENTITY_RAW.forEach((id, entry) -> {
             BlockEntityType<?> blockEntityType = BlockEntityType.Builder.create(entry.getKey()::create, entry.getValue()).build();
@@ -45,9 +43,9 @@ public class CyberRewaredFabric implements ModInitializer, ClientModInitializer 
             // if these ever, for whatever reason desync i have a huge problem
             if (entry.getKey().create(new BlockPos(0, 0, 0), entry.getValue().getDefaultState()) instanceof IEnergyStorage) {
                 EnergyStorage.SIDED.registerForBlockEntity((be, dir) -> {
-                    //i think this is creating a new storage every tick but it doesn't impact performance
-                    //that much so i really don't care about it for now, as im too lazy to keep track of a map
-                    //and add/remove storages depending on which blocks are broken or placed
+                    // i think this is creating a new storage every tick but it doesn't impact performance
+                    // that much so i really don't care about it for now, as im too lazy to keep track of a map
+                    // and add/remove storages depending on which blocks are broken or placed
                     SimpleEnergyStorage storage = new SimpleEnergyStorage(be.getCapacity(), be.getMaxIn(), be.getMaxOut()) {
                         @Override
                         protected void onFinalCommit() {
@@ -58,7 +56,7 @@ public class CyberRewaredFabric implements ModInitializer, ClientModInitializer 
                         @Override
                         public long insert(long maxAmount, TransactionContext transaction) {
                             be.insert(amount);
-                            return super.insert(maxAmount,transaction);
+                            return super.insert(maxAmount, transaction);
                         }
 
                         @Override

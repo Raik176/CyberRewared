@@ -15,6 +15,8 @@ import org.rhm.registries.ScreenHandlerRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: probably switch to parchment so i can use this in neoforge
+@SuppressWarnings("unused")
 public class CyberRewaredMod {
     public static final String MOD_ID = "cyber_rewared";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);

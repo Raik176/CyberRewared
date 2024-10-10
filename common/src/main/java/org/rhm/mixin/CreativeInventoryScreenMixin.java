@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 // i should probably find a better way or just leave it out altogether
-//TODO: implement
+// TODO: implement
 @Mixin(CreativeInventoryScreen.class)
 public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScreen<CreativeInventoryScreen.CreativeScreenHandler> {
     @Shadow
@@ -31,7 +31,7 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
     @Inject(method = "drawBackground", at = @At("TAIL"))
     public void drawBackground(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
         if (selectedTab == CyberRewaredMod.ITEM_GROUP) {
-            context.drawGuiTexture(EXPANSION,x + backgroundWidth,y,29,backgroundHeight);
+            context.drawGuiTexture(EXPANSION, x + backgroundWidth, y, 29, backgroundHeight);
         }
     }
 }
