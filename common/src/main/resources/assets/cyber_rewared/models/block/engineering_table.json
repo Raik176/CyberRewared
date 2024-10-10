@@ -1,9 +1,10 @@
 {
   "parent": "block/block",
   "textures": {
-    "top": "cyber_rewared:block/surgery_chamber_top",
-    "particle": "#front",
-    "front": "cyber_rewared:block/engineering_bottom_side2"
+    "up": "cyber_rewared:block/surgery_chamber_top",
+    "particle": "#up",
+    "north": "cyber_rewared:block/engineering_bottom_side2",
+    "east": "cyber_rewared:block/engineering_bottom_side1"
   },
   "elements": [
     {
@@ -19,27 +20,27 @@
       ],
       "faces": {
         "down": {
-          "texture": "#top",
+          "texture": "#up",
           "cullface": "down"
         },
         "up": {
-          "texture": "#top",
+          "texture": "#up",
           "cullface": "up"
         },
         "north": {
-          "texture": "#front",
+          "texture": "#north",
           "cullface": "north"
         },
         "south": {
-          "texture": "#top",
+          "texture": "#north",
           "cullface": "south"
         },
         "west": {
-          "texture": "#top",
+          "texture": "#east",
           "cullface": "west"
         },
         "east": {
-          "texture": "#top",
+          "texture": "#east",
           "cullface": "east"
         }
       }

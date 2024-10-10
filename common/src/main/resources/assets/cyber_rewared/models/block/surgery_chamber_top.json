@@ -6,7 +6,8 @@
     "1": "cyber_rewared:block/surgery_chamber_inside_bloody_top",
     "2": "cyber_rewared:block/surgery_chamber_front_top",
     "3": "cyber_rewared:block/surgery_chamber_top",
-    "4": "cyber_rewared:block/surgery_chamber_inside_top_bloody"
+    "4": "cyber_rewared:block/surgery_chamber_inside_top_bloody",
+    "particle": "#1"
   },
   "elements": [
     {

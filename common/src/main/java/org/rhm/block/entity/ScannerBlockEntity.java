@@ -67,6 +67,7 @@ public class ScannerBlockEntity extends BlockEntity implements NamedScreenHandle
     }
     @Override
     public void contentChanged() {
+        System.out.println("marked dirty!");
         markDirty();
     }
 }

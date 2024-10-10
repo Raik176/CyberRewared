@@ -4,14 +4,19 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
+import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.math.BlockPos;
+import org.rhm.block.entity.renderer.ScannerBlockEntityRenderer;
 import org.rhm.gui.BlueprintArchiveScreen;
 import org.rhm.gui.ComponentBoxScreen;
 import org.rhm.gui.EngineeringTableScreen;
@@ -29,6 +34,7 @@ public class CyberRewaredFabric implements ModInitializer, ClientModInitializer 
     public void onInitialize() {
         CyberRewaredMod.init();
 
+        //loader specific code
         // TODO: make this less janky
         BlockEntityRegistry.BLOCK_ENTITY_RAW.forEach((id, entry) -> {
             BlockEntityType<?> blockEntityType = BlockEntityType.Builder.create(entry.getKey()::create, entry.getValue()).build();
@@ -80,11 +86,13 @@ public class CyberRewaredFabric implements ModInitializer, ClientModInitializer 
 
     @Override
     public void onInitializeClient() {
+        CyberRewaredMod.initClient();
+
         HandledScreens.register(ScreenHandlerRegistry.SCANNER.get(), ScannerScreen::new);
         HandledScreens.register(ScreenHandlerRegistry.BLUEPRINT_ARCHIVE.get(), BlueprintArchiveScreen::new);
         HandledScreens.register(ScreenHandlerRegistry.COMPONENT_BOX.get(), ComponentBoxScreen::new);
         HandledScreens.register(ScreenHandlerRegistry.ENGINEERING_TABLE.get(), EngineeringTableScreen::new);
 
-        CyberRewaredMod.initClient();
+        BlockEntityRendererFactories.register(BlockEntityRegistry.SCANNER.get(), ScannerBlockEntityRenderer::new);
     }
 }

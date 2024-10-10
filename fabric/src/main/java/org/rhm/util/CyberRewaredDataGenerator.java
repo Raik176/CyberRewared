@@ -62,6 +62,8 @@ public class CyberRewaredDataGenerator implements DataGeneratorEntrypoint {
                 // this is "to Destroy" in the original but i think salvage sounds better
                 builder.add(CyberRewaredMod.MOD_ID + ".gui.insertSalvage", "Insert Cyberware to Salvage");
                 builder.add(CyberRewaredMod.MOD_ID + ".gui.insertBlueprint", "Insert Blueprint");
+
+                builder.add(BlockRegistry.SURGERY_CHAMBER, "Surgery Chamber");
             }
         });
     }

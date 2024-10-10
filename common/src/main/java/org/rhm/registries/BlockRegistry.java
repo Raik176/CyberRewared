@@ -12,6 +12,7 @@ import org.rhm.block.ChargerBlock;
 import org.rhm.block.ComponentBoxBlock;
 import org.rhm.block.EngineeringTableBlock;
 import org.rhm.block.ScannerBlock;
+import org.rhm.block.SurgeryChamberBlock;
 
 public class BlockRegistry {
     public static final Block SCANNER = register(
@@ -39,6 +40,12 @@ public class BlockRegistry {
         new ChargerBlock(),
         true
     );
+    public static final Block SURGERY_CHAMBER = register(
+        "surgery_chamber",
+        new SurgeryChamberBlock(),
+        true
+    );
+
 
 
     public static Block register(String path, Block entry, boolean registerItem) {
