@@ -21,7 +21,7 @@ public class ChargerBlockEntity extends BlockEntity implements TickableBlockEnti
     public long energy;
 
     public ChargerBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.CHARGER.get(), pos, state);
+        super(BlockEntityRegistry.CHARGER, pos, state);
     }
 
     @Override

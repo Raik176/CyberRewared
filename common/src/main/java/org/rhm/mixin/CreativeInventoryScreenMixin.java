@@ -22,7 +22,7 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
     @Shadow
     private static ItemGroup selectedTab;
     @Unique
-    public Identifier EXPANSION = Identifier.of(CyberRewaredMod.MOD_ID, "creative_addon");
+    public Identifier cyberRewared$EXPANSION = Identifier.of(CyberRewaredMod.MOD_ID, "creative_addon");
 
     public CreativeInventoryScreenMixin(CreativeInventoryScreen.CreativeScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
         super(screenHandler, playerInventory, text);
@@ -31,7 +31,7 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
     @Inject(method = "drawBackground", at = @At("TAIL"))
     public void drawBackground(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
         if (selectedTab == CyberRewaredMod.ITEM_GROUP) {
-            context.drawGuiTexture(EXPANSION, x + backgroundWidth, y, 29, backgroundHeight);
+            context.drawGuiTexture(cyberRewared$EXPANSION, x + backgroundWidth, y, 29, backgroundHeight);
         }
     }
 }

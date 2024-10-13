@@ -13,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
@@ -51,7 +50,6 @@ public class EngineeringTableBlock extends Block implements BlockEntityProvider 
         VoxelShapes.cuboid(0.75, 0, 0.25, 1, 1, 0.75),
         VoxelShapes.cuboid(0.25, 0.5625, 0.25, 1, 1, 0.75)
     );
-    private EngineeringTableBlockEntity be;
 
     public EngineeringTableBlock() {
         super(Settings.create()
@@ -100,6 +98,14 @@ public class EngineeringTableBlock extends Block implements BlockEntityProvider 
     }
 
     @Override
+    protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+        if (!world.isClient && world.getBlockEntity(pos) instanceof EngineeringTableBlockEntity etbe) {
+            if (etbe.babe != null && etbe.babe.getPos() == sourcePos) etbe.setBabe(null);
+            if (etbe.cbbe != null && etbe.cbbe.getPos() == sourcePos) etbe.setCbbe(null);
+        }
+    }
+
+    @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockPos blockPos = ctx.getBlockPos();
         World world = ctx.getWorld();
@@ -131,10 +137,6 @@ public class EngineeringTableBlock extends Block implements BlockEntityProvider 
         return super.onBreak(world, pos, state, player);
     }
 
-    public EngineeringTableBlockEntity getBlockEntity() {
-        return be;
-    }
-
     @Override
     protected MapCodec<? extends Block> getCodec() {
         return createCodec(EngineeringTableBlock::new);
@@ -142,19 +144,21 @@ public class EngineeringTableBlock extends Block implements BlockEntityProvider 
 
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        be = BlockEntityRegistry.ENGINEERING_TABLE.get().instantiate(pos, state);
-        return be;
+        return state.get(Properties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER ? BlockEntityRegistry.ENGINEERING_TABLE.instantiate(pos, state) : null;
     }
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
-            NamedScreenHandlerFactory factory = new SimpleNamedScreenHandlerFactory(
-                (syncId, inventory, p) -> be.createMenu(syncId, inventory, p), getName()
-            );
-            player.openHandledScreen(factory);
+            if (state.get(Properties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.UPPER) pos = pos.down();
+            player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
         }
         return ActionResult.SUCCESS;
+    }
+
+    @Override
+    protected @Nullable NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+        return (NamedScreenHandlerFactory) world.getBlockEntity(pos);
     }
 
     @Override

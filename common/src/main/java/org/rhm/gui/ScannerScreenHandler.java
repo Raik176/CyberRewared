@@ -3,34 +3,39 @@ package org.rhm.gui;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import org.rhm.block.entity.ScannerBlockEntity;
 import org.rhm.registries.ScreenHandlerRegistry;
 
-// todo: implement, fix, etc
 public class ScannerScreenHandler extends ScreenHandler {
     private final Inventory inventory;
     private final Slot paperSlot;
     private final Slot cyberPartSlot;
     private final Slot outputSlot;
+    private ScannerBlockEntity scannerBlockEntity;
+    private PlayerInventory playerInventory;
 
     public ScannerScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(syncId, playerInventory, new SimpleInventory(3));
+        this(syncId, playerInventory, new ScreenInventory(3), null);
     }
 
-    public ScannerScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
-        super(ScreenHandlerRegistry.SCANNER.get(), syncId);
+    public ScannerScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, ScannerBlockEntity sbe) {
+        super(ScreenHandlerRegistry.SCANNER, syncId);
         this.inventory = inventory;
+        this.scannerBlockEntity = sbe;
+        this.playerInventory = playerInventory;
+        if (this.inventory instanceof ScreenInventory si) {
+            si.setHandler(this);
+        }
 
         playerInventory.onOpen(playerInventory.player);
 
         paperSlot = new Slot(inventory, 0, 15, 53) {
             @Override
             public boolean canInsert(ItemStack stack) {
-                return stack.getItem() == Items.PAPER;
+                return stack.getItem() == ScannerBlockEntity.PAPER_ITEM;
             }
         };
         cyberPartSlot = new Slot(inventory, 1, 35, 53);
@@ -55,6 +60,11 @@ public class ScannerScreenHandler extends ScreenHandler {
         }
     }
 
+    @Override
+    public void onContentChanged(Inventory inventory) {
+        System.out.println(playerInventory.player.getWorld().isClient);
+    }
+
     public Slot getOutputSlot() {
         return outputSlot;
     }
@@ -69,6 +79,7 @@ public class ScannerScreenHandler extends ScreenHandler {
 
     @Override
     public ItemStack quickMove(PlayerEntity player, int invSlot) {
+        System.out.println(player.getWorld().isClient);
         ItemStack newStack = ItemStack.EMPTY;
 
         Slot slot = this.slots.get(invSlot);

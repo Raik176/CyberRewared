@@ -8,11 +8,14 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.rhm.CyberRewaredMod;
+import org.rhm.network.EngineeringTableSmashPacket;
+import org.rhm.registries.PacketRegistry;
 
 import java.util.function.Supplier;
 
 public class EngineeringTableScreen extends HandledScreen<EngineeringTableScreenHandler> {
     public static final Identifier TEXTURE = Identifier.of(CyberRewaredMod.MOD_ID, "textures/gui/engineering_table.png");
+    public static final Identifier ADDON_TEXTURE = Identifier.of(CyberRewaredMod.MOD_ID, "gui_addon");
     public static final Identifier BUTTON_TEXTURE = Identifier.of(CyberRewaredMod.MOD_ID, "engineering_table/hammer");
     public static final Identifier BUTTON_CLICKED_TEXTURE = Identifier.of(CyberRewaredMod.MOD_ID, "engineering_table/hammer_selected");
 
@@ -43,6 +46,8 @@ public class EngineeringTableScreen extends HandledScreen<EngineeringTableScreen
             @Override
             public void onPress() {
                 pressed = true;
+                //TODO: add craft all functionality
+                PacketRegistry.sendPacketC2S.accept(new EngineeringTableSmashPacket(false));
                 super.onPress();
             }
 

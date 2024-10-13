@@ -1,12 +1,15 @@
 package org.rhm.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
@@ -28,7 +31,6 @@ import org.rhm.registries.BlockEntityRegistry;
 public class ComponentBoxBlock extends HorizontalFacingBlock implements BlockEntityProvider {
     public static final VoxelShape EAST_SHAPE = VoxelShapes.cuboid(0.25, 0, 0.0625, 0.75, 0.625, 0.9375);
     public static final VoxelShape NORTH_SHAPE = VoxelShapes.cuboid(0.0625, 0, 0.25, 0.9375, 0.625, 0.75);
-    private ComponentBoxBlockEntity be;
 
     public ComponentBoxBlock() {
         super(Settings.create()
@@ -54,14 +56,9 @@ public class ComponentBoxBlock extends HorizontalFacingBlock implements BlockEnt
         return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getHorizontalPlayerFacing());
     }
 
-    public ComponentBoxBlockEntity getBlockEntity() {
-        return be;
-    }
-
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        be = BlockEntityRegistry.COMPONENT_BOX.get().instantiate(pos, state);
-        return be;
+        return BlockEntityRegistry.COMPONENT_BOX.instantiate(pos, state);
     }
 
     @Override
@@ -72,12 +69,14 @@ public class ComponentBoxBlock extends HorizontalFacingBlock implements BlockEnt
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
-            NamedScreenHandlerFactory factory = new SimpleNamedScreenHandlerFactory(
-                (syncId, inventory, p) -> be.createMenu(syncId, inventory, p), getName()
-            );
-            player.openHandledScreen(factory);
+            player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
         }
         return ActionResult.SUCCESS;
+    }
+
+    @Override
+    protected @Nullable NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+        return (NamedScreenHandlerFactory) world.getBlockEntity(pos);
     }
 
     @Override

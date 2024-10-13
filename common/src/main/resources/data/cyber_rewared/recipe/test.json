@@ -1,0 +1,12 @@
+{
+  "type": "cyber_rewared:engineering_smash",
+  "cyberware": {
+    "item": "minecraft:dirt"
+  },
+  "output": [
+    {
+      "id": "minecraft:iron_ingot",
+      "count": "1"
+    }
+  ]
+}

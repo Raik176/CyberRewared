@@ -22,7 +22,7 @@ public class BlueprintArchiveBlockEntity extends BlockEntity implements NamedScr
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(BlueprintArchiveScreenHandler.SLOT_COUNT, ItemStack.EMPTY);
 
     public BlueprintArchiveBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.BLUEPRINT_ARCHIVE.get(), pos, state);
+        super(BlockEntityRegistry.BLUEPRINT_ARCHIVE, pos, state);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class ComponentBoxBlockEntity extends BlockEntity implements NamedScreenH
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(ComponentBoxScreenHandler.SLOT_COUNT, ItemStack.EMPTY);
 
     public ComponentBoxBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.COMPONENT_BOX.get(), pos, state);
+        super(BlockEntityRegistry.COMPONENT_BOX, pos, state);
     }
 
     @Override

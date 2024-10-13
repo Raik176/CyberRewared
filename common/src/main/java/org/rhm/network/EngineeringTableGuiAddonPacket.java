@@ -1,35 +1,23 @@
 package org.rhm.network;
 
-import commonnetwork.networking.data.PacketContext;
-import commonnetwork.networking.data.Side;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.util.math.BlockPos;
 
-@SuppressWarnings("rawtypes")
-public class EngineeringTableGuiAddonPacket implements CustomPayload {
-    public static final CustomPayload.Id<EngineeringTableGuiAddonPacket> ID = CustomPayload.id("engineering_gui_addon");
-    public static final PacketCodec<PacketByteBuf, EngineeringTableGuiAddonPacket> STREAM_CODEC =
-        PacketCodec.ofStatic(EngineeringTableGuiAddonPacket::encode, EngineeringTableGuiAddonPacket::new);
-
-    public EngineeringTableGuiAddonPacket(PacketByteBuf buf) {
-
-    }
-
-    private static void encode(PacketByteBuf packetByteBuf, EngineeringTableGuiAddonPacket engineeringTableGuiAddonPacket) {
-
-    }
-
-    public static void handle(PacketContext<EngineeringTableGuiAddonPacket> ctx) {
-        if (Side.CLIENT.equals(ctx.side())) {
-
-        } else {
-
-        }
-    }
+public record EngineeringTableGuiAddonPacket(boolean hasBlueprint, BlockPos bap, boolean hasComponent, BlockPos cbp) implements CustomPayload {
+    public static final PacketCodec<RegistryByteBuf, EngineeringTableGuiAddonPacket> PACKET_CODEC = PacketCodec.tuple(
+        PacketCodecs.BOOL, EngineeringTableGuiAddonPacket::hasBlueprint,
+        BlockPos.PACKET_CODEC, EngineeringTableGuiAddonPacket::bap,
+        PacketCodecs.BOOL, EngineeringTableGuiAddonPacket::hasComponent,
+        BlockPos.PACKET_CODEC, EngineeringTableGuiAddonPacket::cbp,
+        EngineeringTableGuiAddonPacket::new
+    );
 
     @Override
     public Id<? extends CustomPayload> getId() {
-        return ID;
+        return null;
+        //return PacketRegistry.ENGINEERING_ADDON_PACKET;
     }
 }

@@ -23,7 +23,7 @@ public class BlueprintArchiveScreenHandler extends ScreenHandler {
     }
 
     public BlueprintArchiveScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
-        super(ScreenHandlerRegistry.BLUEPRINT_ARCHIVE.get(), syncId);
+        super(ScreenHandlerRegistry.BLUEPRINT_ARCHIVE, syncId);
         this.inventory = inventory;
         this.blueprintSlots = new Slot[SLOT_COUNT];
 

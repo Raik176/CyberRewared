@@ -10,7 +10,6 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
@@ -38,7 +37,6 @@ public class ScannerBlock extends Block implements BlockEntityProvider {
         VoxelShapes.cuboid(0.9375, 0.875, 0, 1, 0.9375, 1),
         VoxelShapes.cuboid(0, 0.875, 0.9375, 1, 0.9375, 1)
     );
-    private ScannerBlockEntity be;
 
     public ScannerBlock() {
         super(Settings.create()
@@ -53,10 +51,6 @@ public class ScannerBlock extends Block implements BlockEntityProvider {
         super(settings);
     }
 
-    public ScannerBlockEntity getBlockEntity() {
-        return be;
-    }
-
     @Override
     protected MapCodec<? extends Block> getCodec() {
         return createCodec(ScannerBlock::new);
@@ -64,19 +58,20 @@ public class ScannerBlock extends Block implements BlockEntityProvider {
 
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        be = BlockEntityRegistry.SCANNER.get().instantiate(pos, state);
-        return be;
+        return BlockEntityRegistry.SCANNER.instantiate(pos, state);
     }
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
-            NamedScreenHandlerFactory factory = new SimpleNamedScreenHandlerFactory(
-                (syncId, inventory, p) -> be.createMenu(syncId, inventory, p), getName()
-            );
-            player.openHandledScreen(factory);
+            player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
         }
         return ActionResult.SUCCESS;
+    }
+
+    @Override
+    protected @Nullable NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+        return (NamedScreenHandlerFactory) world.getBlockEntity(pos);
     }
 
     @Override

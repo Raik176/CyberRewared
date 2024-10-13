@@ -4,6 +4,4 @@ import net.minecraft.item.ItemStack;
 
 public interface IBlueprint {
     ItemStack getResult();
-
-    ItemStack[] needsItem();
 }

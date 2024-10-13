@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "cyber_rewared:block/surgery_chamber_top",
+    "particle": "#end",
+    "side": "cyber_rewared:block/robosurgeon_screen"
+  }
+}

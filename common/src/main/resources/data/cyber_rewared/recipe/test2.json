@@ -1,0 +1,11 @@
+{
+  "type": "cyber_rewared:engineering_craft",
+  "ingredients": [
+    {
+      "tag": "minecraft:trim_materials"
+    }
+  ],
+  "output": {
+    "id": "minecraft:iron_ingot"
+  }
+}

@@ -7,7 +7,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
-import org.rhm.api.IBlueprint;
+import org.rhm.CyberRewaredMod;
 import org.rhm.registries.ScreenHandlerRegistry;
 
 // todo: implement, fix, etc
@@ -23,7 +23,7 @@ public class ComponentBoxScreenHandler extends ScreenHandler {
     }
 
     public ComponentBoxScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
-        super(ScreenHandlerRegistry.COMPONENT_BOX.get(), syncId);
+        super(ScreenHandlerRegistry.COMPONENT_BOX, syncId);
         this.inventory = inventory;
         this.componentSlots = new Slot[SLOT_COUNT];
 
@@ -36,7 +36,7 @@ public class ComponentBoxScreenHandler extends ScreenHandler {
                 componentSlots[slotIndex] = new Slot(inventory, slotIndex, 8 + col * 18, 18 + row * 18) {
                     @Override
                     public boolean canInsert(ItemStack stack) {
-                        return stack.getItem() instanceof IBlueprint;
+                        return stack.isIn(CyberRewaredMod.COMPONENT_TAG);
                     }
                 };
                 this.addSlot(componentSlots[slotIndex]);

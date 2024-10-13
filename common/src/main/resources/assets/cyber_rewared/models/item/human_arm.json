@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "cyber_rewared:item/human_arm"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "cyber_rewared:is_right": 1
+      },
+      "model": "cyber_rewared:item/human_arm_right"
+    }
+  ]
+}

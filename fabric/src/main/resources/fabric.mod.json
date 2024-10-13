@@ -23,6 +23,9 @@
     ],
     "fabric-datagen": [
       "org.rhm.util.CyberRewaredDataGenerator"
+    ],
+    "jei_mod_plugin": [
+      "org.rhm.integration.jei.CWJEIPlugin"
     ]
   },
   "mixins": [

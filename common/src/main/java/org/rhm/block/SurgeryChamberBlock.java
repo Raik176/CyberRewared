@@ -28,49 +28,49 @@ public class SurgeryChamberBlock extends Block {
         VoxelShapes.cuboid(0.125, 0, 0, 0.875, 1, 0.125),
         VoxelShapes.cuboid(0, 0, 0, 0.125, 1, 1),
         VoxelShapes.cuboid(0.875, 0, 0, 1, 1, 1),
-        VoxelShapes.cuboid(0, 0.875, 0, 1, 1, 1)
+        VoxelShapes.cuboid(0, 0.9375, 0, 1, 1, 1)
     );
     public static final VoxelShape NORTH_BOTTOM = VoxelShapes.union(
         VoxelShapes.cuboid(0.125, 0, 0, 0.875, 1, 0.125),
         VoxelShapes.cuboid(0, 0, 0, 0.125, 1, 1),
         VoxelShapes.cuboid(0.875, 0, 0, 1, 1, 1),
-        VoxelShapes.cuboid(0, 0, 0, 1, 0.0625, 1)
+        VoxelShapes.cuboid(0, 0, 0, 1, 0.125, 1)
     );
     public static final VoxelShape EAST_TOP = VoxelShapes.union(
         VoxelShapes.cuboid(0.875, 0, 0.125, 1, 1, 0.875),
         VoxelShapes.cuboid(0, 0, 0, 1, 1, 0.125),
         VoxelShapes.cuboid(0, 0, 0.875, 1, 1, 1),
-        VoxelShapes.cuboid(0, 0.875, 0, 1, 1, 1)
+        VoxelShapes.cuboid(0, 0.9375, 0, 1, 1, 1)
     );
     public static final VoxelShape EAST_BOTTOM = VoxelShapes.union(
         VoxelShapes.cuboid(0.875, 0, 0.125, 1, 1, 0.875),
         VoxelShapes.cuboid(0, 0, 0, 1, 1, 0.125),
         VoxelShapes.cuboid(0, 0, 0.875, 1, 1, 1),
-        VoxelShapes.cuboid(0, 0, 0, 1, 0.0625, 1)
+        VoxelShapes.cuboid(0, 0, 0, 1, 0.125, 1)
     );
     public static final VoxelShape SOUTH_TOP = VoxelShapes.union(
         VoxelShapes.cuboid(0.125, 0, 0.875, 0.875, 1, 1),
         VoxelShapes.cuboid(0, 0, 0, 0.125, 1, 1),
         VoxelShapes.cuboid(0.875, 0, 0, 1, 1, 1),
-        VoxelShapes.cuboid(0, 0.875, 0, 1, 1, 1)
+        VoxelShapes.cuboid(0, 0.9375, 0, 1, 1, 1)
     );
     public static final VoxelShape SOUTH_BOTTOM = VoxelShapes.union(
         VoxelShapes.cuboid(0.125, 0, 0.875, 0.875, 1, 1),
         VoxelShapes.cuboid(0, 0, 0, 0.125, 1, 1),
         VoxelShapes.cuboid(0.875, 0, 0, 1, 1, 1),
-        VoxelShapes.cuboid(0, 0, 0, 1, 0.0625, 1)
+        VoxelShapes.cuboid(0, 0, 0, 1, 0.125, 1)
     );
     public static final VoxelShape WEST_TOP = VoxelShapes.union(
         VoxelShapes.cuboid(0, 0, 0.125, 0.125, 1, 0.875),
         VoxelShapes.cuboid(0, 0, 0, 1, 1, 0.125),
         VoxelShapes.cuboid(0, 0, 0.875, 1, 1, 1),
-        VoxelShapes.cuboid(0, 0.875, 0, 1, 1, 1)
+        VoxelShapes.cuboid(0, 0.9375, 0, 1, 1, 1)
     );
     public static final VoxelShape WEST_BOTTOM = VoxelShapes.union(
         VoxelShapes.cuboid(0, 0, 0.125, 0.125, 1, 0.875),
         VoxelShapes.cuboid(0, 0, 0, 1, 1, 0.125),
         VoxelShapes.cuboid(0, 0, 0.875, 1, 1, 1),
-        VoxelShapes.cuboid(0, 0, 0, 1, 0.0625, 1)
+        VoxelShapes.cuboid(0, 0, 0, 1, 0.125, 1)
     );
 
     public SurgeryChamberBlock() {

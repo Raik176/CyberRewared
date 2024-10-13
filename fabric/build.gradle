@@ -11,7 +11,10 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     modImplementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
 
-    modImplementation "mysticdrew:common-networking-fabric:${project.common_network_version}"
+    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
+    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
+
+    modImplementation "curse.maven:jade-324717:${jade_id}"
     include modApi("teamreborn:energy:${tr_energy_version}")
 }
 
@@ -19,6 +22,17 @@ fabricApi {
     configureDataGeneration()
 }
 
-tasks.runClient.dependsOn(tasks.runDatagen)
+loom {
+    runConfigs.configureEach {
+        ideConfigGenerated = true
+    }
+    runs {
+        client {
+            client()
+            programArgs("--username Raik176 --uuid c0692f76-dacf-4679-9dc1-372a40370ae5")
+        }
+    }
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+}
 
 base.archivesName.set("${base.archivesName}-fabric")

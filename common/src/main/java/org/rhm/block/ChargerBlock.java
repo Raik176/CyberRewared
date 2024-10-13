@@ -12,12 +12,10 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import org.rhm.block.entity.ChargerBlockEntity;
 import org.rhm.registries.BlockEntityRegistry;
 import org.rhm.util.TickableBlockEntity;
 
 public class ChargerBlock extends Block implements BlockEntityProvider {
-    private ChargerBlockEntity be;
 
     public ChargerBlock() {
         super(Settings.create()
@@ -32,10 +30,6 @@ public class ChargerBlock extends Block implements BlockEntityProvider {
         super(settings);
     }
 
-    public ChargerBlockEntity getBlockEntity() {
-        return be;
-    }
-
     @Override
     protected MapCodec<? extends Block> getCodec() {
         return createCodec(ChargerBlock::new);
@@ -43,8 +37,7 @@ public class ChargerBlock extends Block implements BlockEntityProvider {
 
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        be = BlockEntityRegistry.CHARGER.get().instantiate(pos, state);
-        return be;
+        return BlockEntityRegistry.CHARGER.instantiate(pos, state);
     }
 
     @Override

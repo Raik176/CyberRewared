@@ -6,12 +6,25 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 
-    implementation "mysticdrew:common-networking-common:${project.common_network_version}"
+    /* still deciding what config api to use
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}") {
+        exclude group: 'net.fabricmc', module: 'fabric-loader'
+        exclude group: 'net.fabricmc.fabric-api', module: 'fabric-api'
+    }
+     */
+
+    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api-intermediary:${jei_version}")
+    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-common:${jei_version}")
 
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.7'
     //as neoforge and fabric include mixinextras, so can i here
     compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
     annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
+}
+
+def aw = file("src/main/resources/${mod_id}.accesswidener")
+if (aw.exists()) {
+    loom.accessWidenerPath = aw
 }
 
 //sourceSets.main.resources.srcDir("src/main/generated")

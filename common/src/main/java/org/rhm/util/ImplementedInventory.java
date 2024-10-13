@@ -12,6 +12,7 @@ import net.minecraft.util.collection.DefaultedList;
  * @author Juuz
  */
 public interface ImplementedInventory extends Inventory {
+    public Runnable contentChangedCallback = () -> {};
 
     /**
      * Creates an inventory from the item list.
@@ -103,11 +104,12 @@ public interface ImplementedInventory extends Inventory {
      *     ({@link Inventory#getMaxCountPerStack()}), it gets resized to this inventory's maximum amount.
      */
     @Override
-    default void setStack(int slot, ItemStack stack) {
+    default void setStack(int slot, ItemStack stack) {;
         getItems().set(slot, stack);
         if (stack.getCount() > stack.getMaxCount()) {
             stack.setCount(stack.getMaxCount());
         }
+        markDirty();
     }
 
     /**
@@ -116,6 +118,7 @@ public interface ImplementedInventory extends Inventory {
     @Override
     default void clear() {
         getItems().clear();
+        markDirty();
     }
 
     /**

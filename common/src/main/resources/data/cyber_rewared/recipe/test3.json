@@ -1,0 +1,14 @@
+{
+  "type": "cyber_rewared:engineering_craft",
+  "ingredients": [
+    {
+      "item": "minecraft:dirt"
+    }
+  ],
+  "blueprint": {
+    "item": "minecraft:acacia_boat"
+  },
+  "output": {
+    "id": "minecraft:diamond"
+  }
+}

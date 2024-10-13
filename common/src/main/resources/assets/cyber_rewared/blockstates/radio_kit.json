@@ -1,0 +1,23 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "cyber_rewared:block/radio_kit",
+      "uvlock": false
+    },
+    "facing=east": {
+      "model": "cyber_rewared:block/radio_kit",
+      "y": 90,
+      "uvlock": false
+    },
+    "facing=south": {
+      "model": "cyber_rewared:block/radio_kit",
+      "y": 180,
+      "uvlock": false
+    },
+    "facing=west": {
+      "model": "cyber_rewared:block/radio_kit",
+      "y": 270,
+      "uvlock": false
+    }
+  }
+}

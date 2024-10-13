@@ -43,11 +43,8 @@ neoForge {
 }
 
 dependencies {
+    implementation project(':common')
     implementation "net.neoforged:neoforge:${neo_version}"
-    implementation project(":common")
-
-    implementation "mysticdrew:common-networking-neoforge:${project.common_network_version}"
-
 }
 
 base.archivesName.set("${base.archivesName}-neoforge")

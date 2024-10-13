@@ -9,7 +9,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
@@ -51,13 +50,9 @@ public class BlueprintArchiveBlock extends HorizontalFacingBlock implements Bloc
         return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
 
-    public BlueprintArchiveBlockEntity getBlockEntity() {
-        return be;
-    }
-
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        be = BlockEntityRegistry.BLUEPRINT_ARCHIVE.get().instantiate(pos, state);
+        be = BlockEntityRegistry.BLUEPRINT_ARCHIVE.instantiate(pos, state);
         return be;
     }
 
@@ -69,12 +64,14 @@ public class BlueprintArchiveBlock extends HorizontalFacingBlock implements Bloc
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
-            NamedScreenHandlerFactory factory = new SimpleNamedScreenHandlerFactory(
-                (syncId, inventory, p) -> be.createMenu(syncId, inventory, p), getName()
-            );
-            player.openHandledScreen(factory);
+            player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
         }
         return ActionResult.SUCCESS;
+    }
+
+    @Override
+    protected @Nullable NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+        return (NamedScreenHandlerFactory) world.getBlockEntity(pos);
     }
 
     @Override

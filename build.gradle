@@ -18,6 +18,29 @@ subprojects {
             name = "Spongepowered Mixin"
             url = "https://repo.spongepowered.org/repository/maven-public/"
         }
+        maven {
+            name = "CurseMaven" // Jade
+            url "https://www.cursemaven.com"
+            content {
+                includeGroup "curse.maven"
+            }
+        }
+        maven {
+            name = "Jared's Maven" // JEI
+            url = "https://maven.blamejared.com/"
+        }
+        maven {
+            name = "ModMaven" // JEI Fallback
+            url = "https://modmaven.dev"
+        }
+        maven {
+            name = "Shedaniel's Maven" // Cloth Config
+            url "https://maven.shedaniel.me/"
+        }
+        maven {
+            name = "TerraformersMC" // Cloth Config Fallback
+            url "https://maven.terraformersmc.com/releases/"
+        }
     }
 
     processResources {
@@ -26,20 +49,23 @@ subprojects {
         }
 
         var expandProps = [
-            version                 : project.version,
-            mod_id                  : project.mod_id,
-            mod_name                : project.mod_name,
-            mod_description         : project.mod_description,
-            mod_license             : project.mod_license,
-            mod_author              : project.mod_author,
-            fabric_loader_version   : project.fabric_loader_version,
-            fabric_api_version      : project.fabric_api_version,
-            minecraft_version       : project.minecraft_version,
-            neo_loader_version_range: project.neo_loader_version_range,
-            neo_version_range       : project.neo_version_range
+            version                    : project.version,
+            mod_id                     : project.mod_id,
+            mod_name                   : project.mod_name,
+            mod_description            : project.mod_description,
+            mod_license                : project.mod_license,
+            mod_author                 : project.mod_author,
+            fabric_loader_version      : project.fabric_loader_version,
+            fabric_api_version         : project.fabric_api_version,
+            minecraft_version          : project.minecraft_version,
+            minecraft_version_range    : project.minecraft_version_range,
+            neo_loader_version_range   : project.neo_loader_version_range,
+            neo_version_range          : project.neo_version_range,
+            forge_loader_version_range : project.forge_loader_version_range,
+            forge_version_range        : project.forge_version_range
         ]
 
-        filesMatching(["fabric.mod.json", "META-INF/neoforge.mods.toml"]) {
+        filesMatching(["fabric.mod.json", "META-INF/neoforge.mods.toml", 'META-INF/mods.toml', 'pack.mcmeta']) {
             expand expandProps
         }
         inputs.properties(expandProps)
