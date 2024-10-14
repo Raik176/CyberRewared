@@ -26,6 +26,9 @@
     ],
     "jei_mod_plugin": [
       "org.rhm.integration.jei.CWJEIPlugin"
+    ],
+    "modmenu": [
+      "org.rhm.integration.CWModMenuPlugin"
     ]
   },
   "mixins": [
@@ -35,6 +38,7 @@
     "fabricloader": ">=${fabric_loader_version}",
     "minecraft": "~${minecraft_version}",
     "java": ">=21",
-    "fabric-api": "*"
+    "fabric-api": "*",
+    "jei": "*"
   }
 }

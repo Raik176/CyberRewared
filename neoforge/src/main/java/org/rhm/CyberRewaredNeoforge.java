@@ -1,7 +1,6 @@
 package org.rhm;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
@@ -25,28 +24,24 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
-import org.rhm.gui.BlueprintArchiveScreen;
-import org.rhm.gui.ComponentBoxScreen;
-import org.rhm.gui.EngineeringTableScreen;
-import org.rhm.gui.ScannerScreen;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import org.rhm.item.LimbItem;
 import org.rhm.registries.ComponentRegistry;
 import org.rhm.registries.ItemRegistry;
-import org.rhm.registries.ScreenHandlerRegistry;
 import org.rhm.util.Config;
 import org.slf4j.Logger;
 
@@ -55,7 +50,7 @@ import java.util.function.Supplier;
 
 @Mod(CyberRewaredMod.MOD_ID)
 @SuppressWarnings("unchecked")
-public class CyberRewaredForge {
+public class CyberRewaredNeoforge {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     // This is horrible but i haven't found another way to do it
@@ -72,12 +67,8 @@ public class CyberRewaredForge {
     HashMap<EntityType<? extends LivingEntity>, Supplier<AttributeSupplier.Builder>> entityAttributes = new HashMap<>();
 
 
-    public CyberRewaredForge(FMLJavaModLoadingContext context) {
-        IEventBus modEventBus = context.getModEventBus();
-
+    public CyberRewaredNeoforge(IEventBus modEventBus, ModContainer ignoredModContainer) {
         Config.load(FMLPaths.CONFIGDIR.get());
-
-        MinecraftForge.EVENT_BUS.register(this);
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::creativeSetup);
@@ -124,20 +115,20 @@ public class CyberRewaredForge {
             return new Holder.Direct<>(potion);
         };
 
-        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), registry -> blockEntityTypes.forEach(registry::register));
-        event.register(ForgeRegistries.BLOCKS.getRegistryKey(), registry -> blocks.forEach(registry::register));
+        event.register(Registries.BLOCK_ENTITY_TYPE, registry -> blockEntityTypes.forEach(registry::register));
+        event.register(Registries.BLOCK, registry -> blocks.forEach(registry::register));
         event.register(Registries.DATA_COMPONENT_TYPE, registry -> components.forEach(registry::register));
-        event.register(ForgeRegistries.ITEMS.getRegistryKey(), registry -> items.forEach(registry::register));
-        event.register(ForgeRegistries.POTIONS.getRegistryKey(), registry -> potions.forEach(registry::register));
-        event.register(ForgeRegistries.MOB_EFFECTS.getRegistryKey(), registry -> effects.forEach(registry::register));
-        event.register(ForgeRegistries.MENU_TYPES.getRegistryKey(), registry -> screenHandlers.forEach(registry::register));
-        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), registry -> entities.forEach(registry::register));
+        event.register(Registries.ITEM, registry -> items.forEach(registry::register));
+        event.register(Registries.POTION, registry -> potions.forEach(registry::register));
+        event.register(Registries.MOB_EFFECT, registry -> effects.forEach(registry::register));
+        event.register(Registries.MENU, registry -> screenHandlers.forEach(registry::register));
+        event.register(Registries.ENTITY_TYPE, registry -> entities.forEach(registry::register));
         CyberRewaredMod.recipeRegisterFunc = (id, type, serializer) -> {
             recipeTypes.put(id, type);
             recipeSerializers.put(id, serializer);
         };
-        event.register(ForgeRegistries.RECIPE_TYPES.getRegistryKey(), registry -> recipeTypes.forEach(registry::register));
-        event.register(ForgeRegistries.RECIPE_SERIALIZERS.getRegistryKey(), registry -> recipeSerializers.forEach(registry::register));
+        event.register(Registries.RECIPE_TYPE, registry -> recipeTypes.forEach(registry::register));
+        event.register(Registries.RECIPE_SERIALIZER, registry -> recipeSerializers.forEach(registry::register));
 
         CreativeModeTab.builder()
             .icon(CyberRewaredMod.ITEM_GROUP::getIconItem)
@@ -180,11 +171,11 @@ public class CyberRewaredForge {
 
     }
 
-    @Mod.EventBusSubscriber(modid = CyberRewaredMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = CyberRewaredMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            MinecraftForge.registerConfigScreen(CyberRewaredModClient::getConfigScreen);
+            ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (modContainer, screen) -> CyberRewaredModClient.getConfigScreen(screen));
 
             for (Item modItem : ItemRegistry.modItems) {
                 if (modItem instanceof LimbItem) {
@@ -200,10 +191,12 @@ public class CyberRewaredForge {
                 }
             }
 
+            /*
             MenuScreens.register(ScreenHandlerRegistry.SCANNER, ScannerScreen::new);
             MenuScreens.register(ScreenHandlerRegistry.BLUEPRINT_ARCHIVE, BlueprintArchiveScreen::new);
             MenuScreens.register(ScreenHandlerRegistry.COMPONENT_BOX, ComponentBoxScreen::new);
             MenuScreens.register(ScreenHandlerRegistry.ENGINEERING_TABLE, EngineeringTableScreen::new);
+             */
         }
     }
 }

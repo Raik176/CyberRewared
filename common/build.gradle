@@ -4,16 +4,16 @@ plugins {
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-
-    /* still deciding what config api to use
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}") {
-        exclude group: 'net.fabricmc', module: 'fabric-loader'
-        exclude group: 'net.fabricmc.fabric-api', module: 'fabric-api'
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${parchment_minecraft_version}:${parchment_mappings_version}@zip")
     }
-     */
 
-    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api-intermediary:${jei_version}")
+    modImplementation "mysticdrew:common-networking-common:${common_network_version}"
+
+    modApi("me.shedaniel.cloth:cloth-config-forge:${project.cloth_version}") // Forge version should work
+
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-common:${jei_version}")
 
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.7'
@@ -21,6 +21,8 @@ dependencies {
     compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
     annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
 }
+
+sourceSets.main.resources.srcDir 'src/generated/resources'
 
 def aw = file("src/main/resources/${mod_id}.accesswidener")
 if (aw.exists()) {

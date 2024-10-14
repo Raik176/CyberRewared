@@ -10,6 +10,9 @@ displayName = "${mod_name}"
 authors = "${mod_author}"
 description = '''${mod_description}'''
 
+[[mixins]]
+config = "${mod_id}.mixins.json"
+
 [[dependencies.${ mod_id }]]
 modId = "neoforge"
 required = true

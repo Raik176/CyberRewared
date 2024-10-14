@@ -2,6 +2,19 @@ plugins {
     id 'net.neoforged.moddev' version '1.0.20'
 }
 
+dependencies {
+    compileOnly project(':common')
+
+    implementation "net.neoforged:neoforge:${neo_version}"
+
+    implementation "mysticdrew:common-networking-neoforge:${common_network_version}"
+
+    api("me.shedaniel.cloth:cloth-config-neoforge:${project.cloth_version}")
+
+    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+}
+
 neoForge {
     version = project.neo_version
 
@@ -22,12 +35,6 @@ neoForge {
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
-        data {
-            data()
-
-            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
-        }
-
         configureEach {
             systemProperty 'forge.logging.markers', 'REGISTRIES'
 
@@ -40,11 +47,6 @@ neoForge {
             sourceSet(sourceSets.main)
         }
     }
-}
-
-dependencies {
-    implementation project(':common')
-    implementation "net.neoforged:neoforge:${neo_version}"
 }
 
 base.archivesName.set("${base.archivesName}-neoforge")

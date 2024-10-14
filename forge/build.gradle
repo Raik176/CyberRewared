@@ -1,12 +1,35 @@
 plugins {
     id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'org.spongepowered.mixin' version '0.7.+'
+}
+
+dependencies {
+    compileOnly project(":common")
+
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
+
+    annotationProcessor "org.spongepowered:mixin:${mixin_annotation_version}:processor"
+
+    implementation "mysticdrew:common-networking-forge:${common_network_version}"
+
+    implementation(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${project.cloth_version}"))
+
+    compileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    runtimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+}
+
+
+mixin {
+    config "${mod_id}.mixins.json"
 }
 
 base.archivesName.set("${base.archivesName}-forge")
 
 minecraft {
-    mappings channel: "official", version: "1.21.1"
+    mappings channel: "parchment", version: "${parchment_mappings_version}-${parchment_minecraft_version}"
 
     reobf = false
 
@@ -32,28 +55,8 @@ minecraft {
         gameTestServer {
             property 'forge.enabledGameTestNamespaces', mod_id
         }
-
-        data {
-            workingDirectory project.file('run-data')
-
-            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-        }
     }
 }
-
-sourceSets.main.resources { srcDir 'src/generated/resources' }
-
-processResources {
-
-}
-
-dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
-    implementation project(":common")
-}
-
 sourceSets.each {
     def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
     it.output.resourcesDir = dir

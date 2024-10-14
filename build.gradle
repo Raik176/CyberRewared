@@ -47,22 +47,25 @@ subprojects {
         if (project.name != "common") {
             from project(":common").sourceSets.main.resources
         }
+        if (project.name.contains("forge")) {
+            from project(":fabric").sourceSets.main.resources // So we can use fabric's datagen output
+        }
 
         var expandProps = [
-            version                    : project.version,
-            mod_id                     : project.mod_id,
-            mod_name                   : project.mod_name,
-            mod_description            : project.mod_description,
-            mod_license                : project.mod_license,
-            mod_author                 : project.mod_author,
-            fabric_loader_version      : project.fabric_loader_version,
-            fabric_api_version         : project.fabric_api_version,
-            minecraft_version          : project.minecraft_version,
-            minecraft_version_range    : project.minecraft_version_range,
-            neo_loader_version_range   : project.neo_loader_version_range,
-            neo_version_range          : project.neo_version_range,
-            forge_loader_version_range : project.forge_loader_version_range,
-            forge_version_range        : project.forge_version_range
+            version                   : project.version,
+            mod_id                    : project.mod_id,
+            mod_name                  : project.mod_name,
+            mod_description           : project.mod_description,
+            mod_license               : project.mod_license,
+            mod_author                : project.mod_author,
+            fabric_loader_version     : project.fabric_loader_version,
+            fabric_api_version        : project.fabric_api_version,
+            minecraft_version         : project.minecraft_version,
+            minecraft_version_range   : project.minecraft_version_range,
+            neo_loader_version_range  : project.neo_loader_version_range,
+            neo_version_range         : project.neo_version_range,
+            forge_loader_version_range: project.forge_loader_version_range,
+            forge_version_range       : project.forge_version_range
         ]
 
         filesMatching(["fabric.mod.json", "META-INF/neoforge.mods.toml", 'META-INF/mods.toml', 'pack.mcmeta']) {
@@ -86,9 +89,36 @@ subprojects {
         targetCompatibility = JavaVersion.VERSION_21
     }
 
+    if (project.name.contains("forge")) {
+        tasks.withType(JavaCompile).configureEach {
+            source(project(":common").sourceSets.main.allSource)
+        }
+        tasks.withType(Javadoc).configureEach {
+            source(project(":common").sourceSets.main.allJava)
+        }
+
+        tasks.named("sourcesJar", Jar) {
+            from(project(":common").sourceSets.main.allSource)
+        }
+    }
+
     jar {
         from("LICENSE") {
             rename { "${it}_${project.base.archivesName.get()}" }
+        }
+        manifest {
+            attributes([
+                'Specification-Title'     : mod_name,
+                'Specification-Vendor'    : mod_author,
+                'Specification-Version'   : mod_version,
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : mod_version,
+                'Implementation-Vendor'   : mod_author,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                'Timestamp'               : System.currentTimeMillis(),
+                'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                'Build-On-Minecraft'      : minecraft_version
+            ])
         }
     }
 }
