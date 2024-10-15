@@ -107,7 +107,6 @@ public interface ImplementedInventory extends Container {
      */
     @Override
     default void setItem(int slot, ItemStack stack) {
-        ;
         getItems().set(slot, stack);
         if (stack.getCount() > stack.getMaxStackSize()) {
             stack.setCount(stack.getMaxStackSize());

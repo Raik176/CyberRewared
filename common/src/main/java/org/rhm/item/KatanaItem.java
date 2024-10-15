@@ -20,7 +20,7 @@ public class KatanaItem extends SwordItem implements IDeconstructable, IScannabl
 
     @Override
     public ItemStack[] getDestructComponents() {
-        return new ItemStack[] {
+        return new ItemStack[]{
             new ItemStack(ItemRegistry.TITANIUM_MESH),
             new ItemStack(ItemRegistry.CHROME_PLATING),
             new ItemStack(Items.IRON_INGOT, 2)

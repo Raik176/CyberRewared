@@ -76,6 +76,7 @@ public class BlueprintRecipe extends CustomRecipe {
     public boolean isSpecial() {
         return false;
     }
+
     public static class Type implements RecipeType<BlueprintRecipe> {
         public static final BlueprintRecipe.Type INSTANCE = new BlueprintRecipe.Type();
         public static final String ID = "blueprint_combine";

@@ -21,6 +21,7 @@ import org.rhm.recipe.EngineeringCraftRecipe;
 import org.rhm.recipe.EngineeringSmashRecipe;
 import org.rhm.registries.ScreenHandlerRegistry;
 import org.rhm.util.CyberUtil;
+import org.rhm.util.config.Config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -106,7 +107,7 @@ public class EngineeringTableScreenHandler extends CyberScreenHandler {
         this.addSlot(blueprintSlot);
         this.addSlot(craftingOutputSlot);
 
-        CyberUtil.addPlayerInventorySlots(playerInventory, this::addSlot);
+        CyberUtil.addPlayerInventorySlots(playerInventory, this::addSlot, 84);
 
         if (be != null) {
             be.contentsChangedCallback = () -> slotsChanged(inventory);
@@ -130,7 +131,9 @@ public class EngineeringTableScreenHandler extends CyberScreenHandler {
         float chance = 15;
         if (salvageSlot.getItem().getItem() instanceof IScannable scannable) {
             chance += scannable.scanSuccessChance();
-        } else chance = 0;
+        } else {
+            chance = 0;
+        }
         Dispatcher.sendToClient(new EngineeringTableInfoPacket(chance), (ServerPlayer) playerInventory.player);
         if (isUpdatingOutput) return;
 
@@ -176,7 +179,9 @@ public class EngineeringTableScreenHandler extends CyberScreenHandler {
                 }
             }
             if (recipe.useBlueprint() &&
-                ItemStack.isSameItemSameComponents(recipe.blueprint(),blueprintSlot.getItem())) blueprintSlot.getItem().shrink(1);
+                ItemStack.isSameItemSameComponents(recipe.blueprint(), blueprintSlot.getItem())) {
+                blueprintSlot.getItem().shrink(1);
+            }
             recipe = null;
             slotsChanged(blockEntity);
         }
@@ -185,7 +190,7 @@ public class EngineeringTableScreenHandler extends CyberScreenHandler {
     // TODO: cleanup
     public void smash(ServerPlayer entity, EngineeringTableSmashPacket payload) {
         if (salvageSlot.getItem().getItem() instanceof IScannable scannable) {
-            if (scannable.scanCanOutputFromSmash() && playerInventory.player.level().getRandom().nextFloat() < (SCAN_BASE_CHANCE + scannable.scanSuccessChance())/100) {
+            if (scannable.scanCanOutputFromSmash() && playerInventory.player.level().getRandom().nextFloat() < (Config.getCast(Config.ENGINEERING_CHANCE, Float.class) + scannable.scanSuccessChance()) / 100) {
                 ItemStack result = scannable.getScanResult();
                 for (Slot slot : blueprintSlots) {
                     if (slot.hasItem() && !ItemStack.isSameItemSameComponents(slot.getItem(), result)) return;
@@ -213,7 +218,9 @@ public class EngineeringTableScreenHandler extends CyberScreenHandler {
                 for (int i = 0; i < (payload.craftAll() ? salvageSlot.getItem().getCount() : 1); i++) {
                     outputs.addAll(recipe.get().value().craftRecipe(new SingleRecipeInput(salvageSlot.getItem())));
                 }
-            } else return;
+            } else {
+                return;
+            }
         }
         salvageSlot.getItem().shrink(1);
 

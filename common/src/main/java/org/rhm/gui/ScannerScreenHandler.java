@@ -50,7 +50,7 @@ public class ScannerScreenHandler extends CyberScreenHandler {
         this.addSlot(outputSlot);
 
         playerInventory.startOpen(playerInventory.player);
-        CyberUtil.addPlayerInventorySlots(playerInventory, this::addSlot);
+        CyberUtil.addPlayerInventorySlots(playerInventory, this::addSlot, 84);
 
         if (sbe != null) {
             scannerBlockEntity.updateCallback = this::sendProgressPacket;
@@ -66,11 +66,14 @@ public class ScannerScreenHandler extends CyberScreenHandler {
     }
 
     private void sendProgressPacket() {
-        Dispatcher.sendToClient(new ScannerProgressPacket(
-            scannerBlockEntity.getTicks(),
-            scannerBlockEntity.getScanTimeCurrent(),
-            scannerBlockEntity.getCurrentChance()
-        ), (ServerPlayer) player);
+        if (player instanceof ServerPlayer serverPlayer) {
+            Dispatcher.sendToClient(new ScannerProgressPacket(
+                containerId,
+                scannerBlockEntity.getTicks(),
+                scannerBlockEntity.getScanTimeCurrent(),
+                scannerBlockEntity.getCurrentChance()
+            ), serverPlayer);
+        }
     }
 
     public Slot getOutputSlot() {

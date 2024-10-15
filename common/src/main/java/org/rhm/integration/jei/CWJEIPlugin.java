@@ -35,6 +35,7 @@ import org.rhm.recipe.BlueprintRecipe;
 import org.rhm.recipe.EngineeringCraftRecipe;
 import org.rhm.recipe.EngineeringSmashRecipe;
 import org.rhm.registries.BlockRegistry;
+import org.rhm.registries.ComponentRegistry;
 import org.rhm.registries.ItemRegistry;
 import org.rhm.registries.RecipeRegistry;
 
@@ -129,6 +130,16 @@ public class CWJEIPlugin implements IModPlugin {
                 ));
             }
             if (item instanceof IScannable scannable) {
+                if (item instanceof CyberLimbItem cli) {
+                    NonNullList<Ingredient> ingredients = NonNullList.withSize(2, Ingredient.EMPTY);
+                    ItemStack stack = new ItemStack(cli);
+                    stack.set(ComponentRegistry.IS_RIGHT, true);
+                    ingredients.set(0, Ingredient.of(stack));
+                    if (scannable.scanNeedsPaper()) ingredients.set(1, Ingredient.of(ScannerBlockEntity.PAPER_ITEM));
+                    scanningRecipes.add(new ShapelessRecipe(
+                        "", CraftingBookCategory.MISC, scannable.getScanResult(), ingredients)
+                    );
+                }
                 NonNullList<Ingredient> ingredients = NonNullList.withSize(2, Ingredient.EMPTY);
                 ingredients.set(0, Ingredient.of(item));
                 if (scannable.scanNeedsPaper()) ingredients.set(1, Ingredient.of(ScannerBlockEntity.PAPER_ITEM));

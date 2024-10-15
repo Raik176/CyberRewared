@@ -27,10 +27,8 @@ public class EngineeringTableScreen extends AbstractContainerScreen<EngineeringT
     public static final MutableComponent INSERT_SALVAGE_TEXT = Component.translatable(CyberRewaredMod.MOD_ID + ".gui.insertSalvage");
     public static final MutableComponent INSERT_BLUEPRINT_TEXT = Component.translatable(CyberRewaredMod.MOD_ID + ".gui.insertBlueprint");
     public static final String SMASH_TEXT_CHANCE_KEY = CyberRewaredMod.MOD_ID + ".gui.smash_chance";
-
-    public float chance = 0;
-
     private final Button button;
+    public float chance = 0;
 
     public EngineeringTableScreen(EngineeringTableScreenHandler handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
@@ -88,8 +86,9 @@ public class EngineeringTableScreen extends AbstractContainerScreen<EngineeringT
         super.renderTooltip(context, x, y);
         if (this.button.isHovered()) {
             List<Component> tooltip = new ArrayList<>(List.of(SMASH_TEXT));
-            if (chance != 0)
+            if (chance != 0) {
                 tooltip.add(Component.translatable(SMASH_TEXT_CHANCE_KEY, chance));
+            }
             context.renderComponentTooltip(this.font, tooltip, x, y);
         }
         if (hoveredSlot != null && !hoveredSlot.hasItem()) {

@@ -18,6 +18,6 @@ public class SurgeryScreenHandler extends CyberScreenHandler {
         this.playerInventory = playerInventory;
 
         playerInventory.startOpen(playerInventory.player);
-        CyberUtil.addPlayerInventorySlots(playerInventory, this::addSlot);
+        CyberUtil.addPlayerInventorySlots(playerInventory, this::addSlot, 140);
     }
 }

@@ -29,7 +29,7 @@ public record EngineeringCraftRecipe(List<ItemStack> ingredients, ItemStack blue
         this.blueprint = blueprint;
         this.output = output;
         this.useBlueprint = useBlueprint;
-}
+    }
 
     @Override
     public boolean matches(@NotNull EngineeringCraftInput input, @NotNull Level world) {

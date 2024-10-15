@@ -13,9 +13,11 @@ import org.jetbrains.annotations.Nullable;
 public abstract class CyberScreenHandler extends AbstractContainerMenu {
     protected Container inventory;
     protected Inventory playerInventory;
+    protected int containerId;
 
     protected CyberScreenHandler(@Nullable MenuType<?> menuType, int containerId) {
         super(menuType, containerId);
+        this.containerId = containerId;
     }
 
     @Override

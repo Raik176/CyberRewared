@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.List;
 
-public class ModBlockItem extends BlockItem{
+public class ModBlockItem extends BlockItem {
     public ModBlockItem(Block block) {
         super(block, new Item.Properties());
     }

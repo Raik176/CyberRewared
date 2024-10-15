@@ -34,6 +34,10 @@ public class ScannerScreen extends AbstractContainerScreen<ScannerScreenHandler>
         ).getString().split("\n");
     }
 
+    public int getContainerId() {
+        return menu.containerId;
+    }
+
     @Override
     protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
         context.blit(TEXTURE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);

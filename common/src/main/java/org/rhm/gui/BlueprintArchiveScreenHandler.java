@@ -43,7 +43,7 @@ public class BlueprintArchiveScreenHandler extends CyberScreenHandler {
         }
 
         playerInventory.startOpen(playerInventory.player);
-        CyberUtil.addPlayerInventorySlots(playerInventory, this::addSlot,  31 + SLOT_COUNT * 2, 0);
+        CyberUtil.addPlayerInventorySlots(playerInventory, this::addSlot, 8, 31 + SLOT_COUNT * 2);
     }
 
     public Slot[] getBlueprintSlots() {

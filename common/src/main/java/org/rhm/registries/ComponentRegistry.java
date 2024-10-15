@@ -12,7 +12,7 @@ public class ComponentRegistry {
         DataComponentType.<Boolean>builder().persistent(Codec.BOOL).build()
     );
     public static final DataComponentType<Boolean> SCAVENGED = register(
-        "scavenged",
+        "is_scavenged",
         DataComponentType.<Boolean>builder().persistent(Codec.BOOL).build()
     );
     public static final DataComponentType<Integer> XP_STORED = register(

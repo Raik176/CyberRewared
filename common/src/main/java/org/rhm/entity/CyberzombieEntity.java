@@ -21,7 +21,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.rhm.CyberRewaredMod;
-import org.rhm.util.Config;
+import org.rhm.util.config.Config;
 
 import java.util.Objects;
 
@@ -82,7 +82,7 @@ public class CyberzombieEntity extends Zombie {
     @Override
     public @Nullable SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor world, @NotNull DifficultyInstance difficulty, @NotNull MobSpawnType spawnReason, @Nullable SpawnGroupData entityData) {
         SpawnGroupData data = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
-        if (this.level().getRandom().nextFloat() < Config.NATURAL_BRUTE_CHANCE / 100) {
+        if (this.level().getRandom().nextFloat() < Config.getCast(Config.NATURAL_BRUTE_CHANCE, Float.class) / 100) {
             setBrute(true);
         }
         this.setHealth(this.getMaxHealth());

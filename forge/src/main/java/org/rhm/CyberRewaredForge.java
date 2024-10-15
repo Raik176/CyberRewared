@@ -51,7 +51,7 @@ import org.rhm.item.LimbItem;
 import org.rhm.registries.ComponentRegistry;
 import org.rhm.registries.ItemRegistry;
 import org.rhm.registries.ScreenHandlerRegistry;
-import org.rhm.util.Config;
+import org.rhm.util.config.Config;
 import org.slf4j.Logger;
 
 import java.util.HashMap;

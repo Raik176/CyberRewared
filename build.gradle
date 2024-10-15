@@ -6,6 +6,16 @@ allprojects {
     version = "${minecraft_version}-${mod_version}"
 }
 
+tasks.register('buildAll') {
+    description = 'Builds all subprojects'
+
+    subprojects.each { subproject ->
+        if (subproject.name != "common") {
+            dependsOn subproject.tasks.build
+        }
+    }
+}
+
 subprojects {
     apply plugin: "java"
 

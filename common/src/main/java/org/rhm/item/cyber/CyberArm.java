@@ -10,7 +10,7 @@ public class CyberArm extends CyberLimbItem {
 
     @Override
     public ItemStack[] getDestructComponents() {
-        return new ItemStack[] {};
+        return new ItemStack[]{};
     }
 
     @Override

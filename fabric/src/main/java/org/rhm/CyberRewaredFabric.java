@@ -44,7 +44,7 @@ import org.rhm.registries.ComponentRegistry;
 import org.rhm.registries.EntityRegistry;
 import org.rhm.registries.ItemRegistry;
 import org.rhm.registries.ScreenHandlerRegistry;
-import org.rhm.util.Config;
+import org.rhm.util.config.Config;
 import org.rhm.util.IEnergyStorage;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;

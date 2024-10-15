@@ -27,7 +27,7 @@ public class BlueprintItem extends Item {
             if (stack1 == null || stack1.isEmpty()) {
                 subkey = EMPTY_COMPONENT.getString();
             } else {
-                subkey = Component.translatable(stack1.getDescriptionId()).getString();
+                subkey = stack1.getItem().getName(stack1).getString();
             }
         } else {
             subkey = EMPTY_COMPONENT.getString();

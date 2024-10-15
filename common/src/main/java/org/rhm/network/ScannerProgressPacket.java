@@ -11,12 +11,14 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import org.rhm.gui.ScannerScreen;
 
-public record ScannerProgressPacket(long currentTicks, long maxTicks, float successChance) {
+public record ScannerProgressPacket(int containerId, long currentTicks, long maxTicks, float successChance) {
     public static final ResourceLocation CHANNEL = ResourceLocation.fromNamespaceAndPath(
         Constants.MOD_ID,
         "scanner_progress"
     );
     public static final StreamCodec<FriendlyByteBuf, ScannerProgressPacket> CODEC = StreamCodec.composite(
+        ByteBufCodecs.INT,
+        ScannerProgressPacket::containerId,
         ByteBufCodecs.VAR_LONG,
         ScannerProgressPacket::currentTicks,
         ByteBufCodecs.VAR_LONG,
@@ -32,11 +34,10 @@ public record ScannerProgressPacket(long currentTicks, long maxTicks, float succ
 
     public static void handle(PacketContext<ScannerProgressPacket> ctx) {
         if (ctx.side() != Side.CLIENT) return;
-        if (Minecraft.getInstance().screen instanceof ScannerScreen ss) {
+        if (Minecraft.getInstance().screen instanceof ScannerScreen ss && ss.getContainerId() == ctx.message().containerId) {
             ss.scanTime = ctx.message().currentTicks;
             ss.scanTimeMax = ctx.message().maxTicks;
             ss.chance = ctx.message().successChance;
-
         }
     }
 }

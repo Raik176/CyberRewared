@@ -4,7 +4,7 @@
     {
       "model": "cyber_rewared:item/cyberarm_scavenged",
       "predicate": {
-        "cyber_rewared:scavenged": 1
+        "cyber_rewared:is_scavenged": 1
       }
     },
     {
@@ -17,7 +17,7 @@
       "model": "cyber_rewared:item/cyberarm_scavenged_right",
       "predicate": {
         "cyber_rewared:is_right": 1,
-        "cyber_rewared:scavenged": 1
+        "cyber_rewared:is_scavenged": 1
       }
     }
   ],

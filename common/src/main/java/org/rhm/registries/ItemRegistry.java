@@ -12,20 +12,17 @@ import org.rhm.item.*;
 import org.rhm.item.cyber.CyberArm;
 import org.rhm.item.cyber.CyberEyes;
 import org.rhm.item.cyber.CyberLeg;
+import org.rhm.util.config.Config;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @SuppressWarnings("unused")
 public class ItemRegistry {
+    public static final Optional<Item> KATANA;
     // these are technically useless at runtime but i use them for datagen
     private static final HashMap<Block, BlockItem> blockItems = new HashMap<>();
     private static final HashMap<EntityType<?>, SpawnEggItem> spawnEggItems = new HashMap<>();
     public static List<Item> modItems = new ArrayList<>();
-
     public static final Item CYBEREYES = register(
         "cybereyes",
         new CyberEyes()
@@ -38,7 +35,6 @@ public class ItemRegistry {
         "cyberleg",
         new CyberLeg()
     );
-
     public static final Item HUMAN_ARM = register(
         "human_arm",
         new LimbItem(new Item.Properties())
@@ -83,17 +79,14 @@ public class ItemRegistry {
         "human_liver",
         new OrganItem(new Item.Properties())
     );
-
     public static final Item BLUEPRINT = register(
         "blueprint",
         new BlueprintItem()
     );
-
     public static final Item NEURO_SYRINGE = register(
         "neuropozyne",
         new NeuroItem()
     );
-
     public static final Item ACTUATOR = register(
         "actuator",
         new ComponentItem()
@@ -134,15 +127,21 @@ public class ItemRegistry {
         "microelectric_cells",
         new ComponentItem()
     );
-
     public static final Item XP_CAPSULE = register(
         "xp_capsule",
         new XPCapsuleItem()
     );
-    public static final Item KATANA = register(
-        "katana",
-        new KatanaItem()
-    );
+
+    static {
+        if (Config.getCast(Config.KATANA_ENABLED, Boolean.class)) {
+            KATANA = Optional.of(register(
+                "katana",
+                new KatanaItem()
+            ));
+        } else {
+            KATANA = Optional.empty();
+        }
+    }
 
 
     public static Item register(String path, Item entry) {
@@ -188,35 +187,39 @@ public class ItemRegistry {
         modItems = Collections.unmodifiableList(modItems);
     }
 
+    public static ItemStack[] getAllSubTypes(Item item) {
+        switch (item) {
+            case LimbItem li -> {
+                ItemStack stack = new ItemStack(li);
+                stack.set(ComponentRegistry.IS_RIGHT, true);
+                return new ItemStack[]{new ItemStack(li), stack};
+            }
+            case CyberLimbItem cli -> {
+                ItemStack stack1 = new ItemStack(cli);
+                stack1.set(ComponentRegistry.IS_RIGHT, true);
+                ItemStack stack2 = new ItemStack(cli);
+                stack2.set(ComponentRegistry.IS_RIGHT, true);
+                stack2.set(ComponentRegistry.SCAVENGED, true);
+                ItemStack stack3 = new ItemStack(cli);
+                stack3.set(ComponentRegistry.SCAVENGED, true);
+                return new ItemStack[]{new ItemStack(cli), stack1, stack3, stack2};
+            }
+            case CyberItem ci -> {
+                ItemStack stack = new ItemStack(ci);
+                stack.set(ComponentRegistry.SCAVENGED, true);
+                return new ItemStack[]{new ItemStack(ci), stack};
+            }
+            default -> {
+                return new ItemStack[]{new ItemStack(item)};
+            }
+        }
+    }
+
     public static List<Object> getCreativeEntries() {
         List<Object> entries = new ArrayList<>();
 
         for (Item i : modItems) {
-            if (i instanceof LimbItem li) {
-                entries.add(li);
-                ItemStack stack = new ItemStack(li);
-                stack.set(ComponentRegistry.IS_RIGHT, true);
-                entries.add(stack);
-            } else if (i instanceof CyberLimbItem cli) {
-                entries.add(cli);
-                ItemStack stack = new ItemStack(cli);
-                stack.set(ComponentRegistry.IS_RIGHT, true);
-                entries.add(stack);
-                stack = new ItemStack(cli);
-                stack.set(ComponentRegistry.SCAVENGED, true);
-                entries.add(stack);
-                stack = new ItemStack(cli);
-                stack.set(ComponentRegistry.IS_RIGHT, true);
-                stack.set(ComponentRegistry.SCAVENGED, true);
-                entries.add(stack);
-            } else if (i instanceof CyberItem ci) {
-                entries.add(ci);
-                ItemStack stack = new ItemStack(ci);
-                stack.set(ComponentRegistry.SCAVENGED, true);
-                entries.add(stack);
-            } else {
-                entries.add(i);
-            }
+            entries.addAll(Arrays.stream(getAllSubTypes(i)).toList());
         }
 
         return entries;

@@ -3,10 +3,18 @@ package org.rhm;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
+import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
+import me.shedaniel.clothconfig2.impl.builders.FloatFieldBuilder;
+import me.shedaniel.clothconfig2.impl.builders.IntFieldBuilder;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.rhm.registries.PacketRegistry;
-import org.rhm.util.Config;
+import org.rhm.util.config.Config;
+import org.rhm.util.config.ConfigRange;
+import org.rhm.util.config.ConfigRequiresRestart;
+
+import java.lang.reflect.Field;
 
 public class CyberRewaredModClient {
     public static void init() {
@@ -26,20 +34,57 @@ public class CyberRewaredModClient {
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
         ConfigCategory general = builder.getOrCreateCategory(Component.literal("N/A")); // This isn't shown unless we have more than 1 tab
 
-        general.addEntry(entryBuilder.startFloatField(getConfigName("engineering_chance"), Config.ENGINEERING_CHANCE)
-            .setDefaultValue(Config.ENGINEERING_CHANCE_DEFAULT)
-            .setTooltip(getConfigTtp("engineering_chance"))
-            .setSaveConsumer(newValue -> Config.ENGINEERING_CHANCE = newValue)
-            .setMax(100)
-            .setMin(1)
-            .build());
-        general.addEntry(entryBuilder.startFloatField(getConfigName("brute_chance"), Config.NATURAL_BRUTE_CHANCE)
-            .setDefaultValue(Config.NATURAL_BRUTE_CHANCE_DEFAULT)
-            .setTooltip(getConfigTtp("brute_chance"))
-            .setSaveConsumer(newValue -> Config.NATURAL_BRUTE_CHANCE = newValue)
-            .setMax(100)
-            .setMin(1)
-            .build());
+        for (Field field : Config.class.getDeclaredFields()) {
+            if (!field.getType().equals(String.class)) continue;
+            String fieldName;
+            try {
+                fieldName = (String) field.get(null);
+            } catch (IllegalAccessException e) {
+                CyberRewaredMod.LOGGER.error("Failed to access field: {}", field.getName(), e);
+                continue;
+            }
+            Object configValue = Config.values.get(fieldName);
+            FieldBuilder<?, ?, ?> genericFieldBuilder = null;
+            switch (configValue) {
+                case Float value -> {
+                    FloatFieldBuilder fieldBuilder = entryBuilder.startFloatField(getConfigName(fieldName), value)
+                        .setDefaultValue(() -> Config.getDefaultCast(fieldName, Float.class))
+                        .setTooltip(getConfigTtp(fieldName))
+                        .setSaveConsumer(newValue -> Config.set(fieldName, newValue));
+                    if (field.isAnnotationPresent(ConfigRange.class)) {
+                        ConfigRange range = field.getAnnotation(ConfigRange.class);
+                        fieldBuilder.setMin(range.minFloat()).setMax(range.maxFloat());
+                    }
+                    genericFieldBuilder = fieldBuilder;
+                }
+                case Integer value -> {
+                    IntFieldBuilder fieldBuilder = entryBuilder.startIntField(getConfigName(fieldName), value)
+                        .setDefaultValue(() -> Config.getDefaultCast(fieldName, Integer.class))
+                        .setTooltip(getConfigTtp(fieldName))
+                        .setSaveConsumer(newValue -> Config.set(fieldName, newValue));
+                    if (field.isAnnotationPresent(ConfigRange.class)) {
+                        ConfigRange range = field.getAnnotation(ConfigRange.class);
+                        fieldBuilder.setMin(range.minInt()).setMax(range.maxInt());
+                    }
+                    genericFieldBuilder = fieldBuilder;
+                }
+                case Boolean value -> {
+                    BooleanToggleBuilder fieldBuilder = entryBuilder.startBooleanToggle(getConfigName(fieldName), value)
+                        .setDefaultValue(() -> Config.getDefaultCast(fieldName, Boolean.class))
+                        .setTooltip(getConfigTtp(fieldName))
+                        .setSaveConsumer(newValue -> Config.set(fieldName, newValue));
+                    genericFieldBuilder = fieldBuilder;
+                }
+                case null, default ->
+                    CyberRewaredMod.LOGGER.error("Field {} of type {} is not handled.", fieldName, configValue.getClass().getSimpleName());
+            }
+            if (genericFieldBuilder != null) {
+                if (field.isAnnotationPresent(ConfigRequiresRestart.class)) {
+                    genericFieldBuilder.requireRestart(true);
+                }
+                general.addEntry(genericFieldBuilder.build());
+            }
+        }
 
         return builder
             .setParentScreen(parent)
