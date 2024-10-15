@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_bars"
+    },
+    "B": {
+      "item": "cyber_rewared:fiber_optics"
+    },
+    "C": {
+      "item": "cyber_rewared:chrome_plating"
+    }
+  },
+  "pattern": [
+    "A A",
+    "ABA",
+    "ACA"
+  ],
+  "result": {
+    "count": 6,
+    "id": "cyber_rewared:radio_post"
+  }
+}

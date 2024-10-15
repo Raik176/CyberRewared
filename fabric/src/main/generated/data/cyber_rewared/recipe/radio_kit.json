@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "cyber_rewared:fiber_optics"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "cyber_rewared:solid_state_circuitry"
+    }
+  },
+  "pattern": [
+    "A  ",
+    "BBB",
+    "BCB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "cyber_rewared:radio_kit"
+  }
+}

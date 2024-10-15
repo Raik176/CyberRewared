@@ -1,0 +1,3 @@
+accessWidener v2 named
+
+accessible method net/minecraft/data/models/model/ModelTemplate createMap (Lnet/minecraft/data/models/model/TextureMapping;)Ljava/util/Map;

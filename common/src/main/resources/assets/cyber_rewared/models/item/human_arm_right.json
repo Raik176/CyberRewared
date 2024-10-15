@@ -1,6 +1,0 @@
-{
-  "parent": "cyber_rewared:item/human_arm",
-  "textures": {
-    "layer0": "cyber_rewared:item/human_arm_right"
-  }
-}

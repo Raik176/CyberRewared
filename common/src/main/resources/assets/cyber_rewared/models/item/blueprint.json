@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "cyber_rewared:item/blueprint"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "cyber_rewared:blueprint_is_empty": 1
+      },
+      "model": "cyber_rewared:item/blueprint_empty"
+    }
+  ]
+}

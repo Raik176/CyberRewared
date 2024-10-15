@@ -40,7 +40,7 @@ loom {
     runs {
         client {
             client()
-            programArgs("--username Raik176 --uuid c0692f76-dacf-4679-9dc1-372a40370ae5")
+            programArgs("--username=Dev")
         }
     }
     accessWidenerPath = project(":common").loom.accessWidenerPath

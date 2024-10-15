@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_ingot"
+    },
+    "B": {
+      "item": "minecraft:piston"
+    },
+    "C": {
+      "item": "minecraft:crafting_table"
+    }
+  },
+  "pattern": [
+    " BA",
+    "AAA",
+    "ACA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "cyber_rewared:engineering_table"
+  }
+}

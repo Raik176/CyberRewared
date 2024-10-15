@@ -1,0 +1,6 @@
+{
+  "parent": "cyber_rewared:item/cyberarm",
+  "textures": {
+    "layer0": "cyber_rewared:item/cyberarm_scavenged"
+  }
+}

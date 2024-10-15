@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "cyber_rewared:item/cybereyes_scavenged",
+      "predicate": {
+        "cyber_rewared:scavenged": 1
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "cyber_rewared:item/cybereyes"
+  }
+}

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class Config {
     public static final float ENGINEERING_CHANCE_DEFAULT = 15;
-    public static final float NATURAL_BRUTE_CHANCE_DEFAULT = 50;
+    public static final float NATURAL_BRUTE_CHANCE_DEFAULT = 5;
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static float ENGINEERING_CHANCE = ENGINEERING_CHANCE_DEFAULT;
     public static float NATURAL_BRUTE_CHANCE = NATURAL_BRUTE_CHANCE_DEFAULT;
@@ -39,7 +39,6 @@ public class Config {
 
     public static void load(Path configFolder) {
         Path modConfigPath = configFolder.resolve(CyberRewaredMod.MOD_ID + ".json");
-        // Minecraft.getInstance().getResourceManager()
         File file = currentConfig = new File(String.valueOf(modConfigPath));
         if (!file.exists()) {
             CyberRewaredMod.LOGGER.warn("Config file doesn't exist. Will use default values.");

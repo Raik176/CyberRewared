@@ -1,0 +1,26 @@
+{
+  "type": "cyber_rewared:engineering_craft",
+  "ingredients": [
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 2
+    },
+    {
+      "id": "cyber_rewared:titanium_mesh"
+    },
+    {
+      "id": "cyber_rewared:chrome_plating"
+    }
+  ],
+  "blueprint": {
+    "id": "cyber_rewared:blueprint",
+    "components": {
+      "cyber_rewared:blueprint_result": {
+        "id": "cyber_rewared:katana"
+      }
+    }
+  },
+  "output": {
+    "id": "cyber_rewared:katana"
+  }
+}
