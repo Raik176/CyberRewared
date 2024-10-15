@@ -30,5 +30,3 @@ if (aw.exists()) {
 }
 
 //sourceSets.main.resources.srcDir("src/main/generated")
-
-base.archivesName.set("${base.archivesName}-common")

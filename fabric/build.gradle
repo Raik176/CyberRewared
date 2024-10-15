@@ -45,5 +45,3 @@ loom {
     }
     accessWidenerPath = project(":common").loom.accessWidenerPath
 }
-
-base.archivesName.set("${base.archivesName}-fabric")

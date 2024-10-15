@@ -48,5 +48,3 @@ neoForge {
         }
     }
 }
-
-base.archivesName.set("${base.archivesName}-neoforge")

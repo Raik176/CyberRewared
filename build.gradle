@@ -1,23 +1,20 @@
 //this file is a mess
 
+plugins {
+    id 'idea'
+}
+
 group = project.maven_group
 
 allprojects {
     version = "${minecraft_version}-${mod_version}"
 }
 
-tasks.register('buildAll') {
-    description = 'Builds all subprojects'
-
-    subprojects.each { subproject ->
-        if (subproject.name != "common") {
-            dependsOn subproject.tasks.build
-        }
-    }
-}
-
 subprojects {
     apply plugin: "java"
+    apply plugin: "idea"
+
+    base.archivesName.set("${mod_id}-${project.name}")
 
     repositories {
         maven {
@@ -82,10 +79,6 @@ subprojects {
             expand expandProps
         }
         inputs.properties(expandProps)
-    }
-
-    base {
-        archivesName = project.mod_id
     }
 
     tasks.withType(JavaCompile).configureEach {

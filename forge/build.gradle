@@ -1,5 +1,4 @@
 plugins {
-    id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'org.spongepowered.mixin' version '0.7.+'
@@ -24,8 +23,6 @@ dependencies {
 mixin {
     config "${mod_id}.mixins.json"
 }
-
-base.archivesName.set("${base.archivesName}-forge")
 
 minecraft {
     mappings channel: "parchment", version: "${parchment_mappings_version}-${parchment_minecraft_version}"
