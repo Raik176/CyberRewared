@@ -38,4 +38,4 @@ jobs:
                 uses: actions/upload-artifact@v4
                 with:
                     name: Artifacts
-                    path: ${{ matrix.java }}/build/libs/
+                    path: ${{ matrix.loader }}/build/libs/
