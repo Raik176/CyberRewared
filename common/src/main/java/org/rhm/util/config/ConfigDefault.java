@@ -14,5 +14,9 @@ public @interface ConfigDefault { // I'll never use any of these as config value
 
     int intValue() default Integer.MIN_VALUE;
 
-    boolean boolValue() default true;
+    BoolState boolValue() default BoolState.UNDEFINED;
+
+    enum BoolState { //Need to have a workaround for bools
+        TRUE, FALSE, UNDEFINED
+    }
 }

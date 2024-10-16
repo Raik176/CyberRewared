@@ -3,7 +3,6 @@ package org.rhm;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.FloatFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.IntFieldBuilder;
@@ -69,11 +68,10 @@ public class CyberRewaredModClient {
                     genericFieldBuilder = fieldBuilder;
                 }
                 case Boolean value -> {
-                    BooleanToggleBuilder fieldBuilder = entryBuilder.startBooleanToggle(getConfigName(fieldName), value)
+                    genericFieldBuilder = entryBuilder.startBooleanToggle(getConfigName(fieldName), value)
                         .setDefaultValue(() -> Config.getDefaultCast(fieldName, Boolean.class))
                         .setTooltip(getConfigTtp(fieldName))
                         .setSaveConsumer(newValue -> Config.set(fieldName, newValue));
-                    genericFieldBuilder = fieldBuilder;
                 }
                 case null, default ->
                     CyberRewaredMod.LOGGER.error("Field {} of type {} is not handled.", fieldName, configValue.getClass().getSimpleName());

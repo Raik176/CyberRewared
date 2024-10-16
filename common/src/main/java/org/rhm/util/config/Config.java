@@ -2,6 +2,7 @@ package org.rhm.util.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.rhm.CyberRewaredMod;
 
@@ -38,10 +39,10 @@ public class Config {
         "Threshold below which you will take damage and require Anti-Rejection shots.",
     })
     public static final String CRITICAL_ESSENCE = "critical_essence";
-    @ConfigDefault(boolValue = true)
+    @ConfigDefault(boolValue = ConfigDefault.BoolState.TRUE)
     @ConfigTranslation(name = "Is Katana enabled", description = {
-        "If true, Katana is enabled and can be obtained, if false, Katana is not obtainable",
-        "WARNING: THIS WILL ALSO REMOVE EVERY KATANA FROM EVERY INVENTORY ONCE YOU LOAD A WORLD"
+        "If true, Katana is enabled and can be obtained,\nif false, Katana is not obtainable",
+        "§cWARNING: THIS WILL ALSO REMOVE EVERY KATANA FROM\n§cEVERY INVENTORY ONCE YOU LOAD A WORLD"
     })
     @ConfigRequiresRestart
     public static final String KATANA_ENABLED = "katana_enabled";
@@ -71,9 +72,8 @@ public class Config {
                             defaults.put(fieldName, floatValue);
                         } else if (value instanceof Integer intValue && intValue != Integer.MIN_VALUE) {
                             defaults.put(fieldName, intValue);
-                        } else if (value instanceof Boolean boolValue) // This should probably always be the last one
-                        {
-                            defaults.put(fieldName, boolValue);
+                        } else if (value instanceof ConfigDefault.BoolState boolValue && boolValue != ConfigDefault.BoolState.UNDEFINED) {
+                            defaults.put(fieldName, boolValue == ConfigDefault.BoolState.TRUE);
                         }
                     } catch (Exception e) {
                         throw new IllegalStateException("Failed to get value from annotation for field " + fieldName, e);
@@ -145,9 +145,11 @@ public class Config {
         }
 
         try (FileReader reader = new FileReader(file)) {
-            Map<String, Object> loadedValues = gson.fromJson(reader, Map.class);
-            if (loadedValues != null) {
-                values.putAll(loadedValues);
+            JsonObject data = gson.fromJson(reader, JsonObject.class);
+            if (data != null) {
+                for (String s : data.keySet()) {
+                    values.put(s, gson.fromJson(data.get(s), defaults.get(s).getClass()));
+                }
             } else {
                 CyberRewaredMod.LOGGER.warn("Config file was empty or invalid, using default values.");
             }

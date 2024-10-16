@@ -1,11 +1,10 @@
 package org.rhm.util;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.rhm.api.IRoboticPart;
+import org.rhm.api.ICyberware;
 import org.rhm.entity.CyberzombieEntity;
 import org.rhm.registries.ComponentRegistry;
 import org.rhm.registries.ItemRegistry;
@@ -19,18 +18,32 @@ public class CyberUtil {
         return String.format("%02d:%02d", seconds / 60, seconds % 60);
     }
 
+    public static String toCamelCase(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+
+        StringBuilder camelCaseString = new StringBuilder();
+        String[] words = input.split("\\s+");
+
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                camelCaseString.append(Character.toUpperCase(word.charAt(0)))
+                    .append(word.substring(1).toLowerCase());
+            }
+        }
+
+        return camelCaseString.toString();
+    }
+
     public static ItemStack getBlueprintWithItem(Item item) {
         ItemStack stack = new ItemStack(ItemRegistry.BLUEPRINT);
         stack.set(ComponentRegistry.BLUEPRINT_RESULT, new ItemStack(item));
         return stack;
     }
 
-    public static String getStringId(ResourceLocation location) {
-        return location.getNamespace() + ":" + location.getPath();
-    }
-
     public static void addRandomCyberware(CyberzombieEntity entity) {
-        for (IRoboticPart.Slot value : IRoboticPart.Slot.values()) {
+        for (ICyberware.Slot value : ICyberware.Slot.values()) {
 
         }
     }

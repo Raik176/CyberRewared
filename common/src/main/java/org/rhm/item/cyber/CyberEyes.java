@@ -17,4 +17,14 @@ public class CyberEyes extends CyberItem {
     public Slot getSlot() {
         return Slot.EYES;
     }
+
+    @Override
+    public int getEssenceCost() {
+        return 8;
+    }
+
+    @Override
+    public int getPowerRequirement() {
+        return 1;
+    }
 }

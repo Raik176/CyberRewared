@@ -56,7 +56,6 @@ import org.rhm.util.config.Config;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 @Mod(CyberRewaredMod.MOD_ID)
@@ -236,7 +235,8 @@ public class CyberRewaredNeoforge {
                     ItemProperties.register(modItem,
                         ResourceLocation.fromNamespaceAndPath(CyberRewaredMod.MOD_ID, "blueprint_is_empty"), (is, world, le, seed) -> {
                             if (is.getItem() == ItemRegistry.BLUEPRINT) {
-                                return Objects.requireNonNull(is.get(ComponentRegistry.BLUEPRINT_RESULT)).isEmpty() ? 1 : 0;
+                                ItemStack itemStack = is.get(ComponentRegistry.BLUEPRINT_RESULT);
+                                return (itemStack == null || itemStack.isEmpty()) ? 1 : 0;
                             }
                             return 0;
                         }

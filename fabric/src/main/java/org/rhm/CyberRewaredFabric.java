@@ -44,12 +44,10 @@ import org.rhm.registries.ComponentRegistry;
 import org.rhm.registries.EntityRegistry;
 import org.rhm.registries.ItemRegistry;
 import org.rhm.registries.ScreenHandlerRegistry;
-import org.rhm.util.config.Config;
 import org.rhm.util.IEnergyStorage;
+import org.rhm.util.config.Config;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
-
-import java.util.Objects;
 
 @SuppressWarnings("unchecked")
 public class CyberRewaredFabric implements ModInitializer, ClientModInitializer {
@@ -185,7 +183,8 @@ public class CyberRewaredFabric implements ModInitializer, ClientModInitializer 
                 ItemProperties.register(modItem,
                     ResourceLocation.fromNamespaceAndPath(CyberRewaredMod.MOD_ID, "blueprint_is_empty"), (is, world, le, seed) -> {
                         if (is.getItem() == ItemRegistry.BLUEPRINT) {
-                            return Objects.requireNonNull(is.get(ComponentRegistry.BLUEPRINT_RESULT)).isEmpty() ? 1 : 0;
+                            ItemStack itemStack = is.get(ComponentRegistry.BLUEPRINT_RESULT);
+                            return (itemStack == null || itemStack.isEmpty()) ? 1 : 0;
                         }
                         return 0;
                     }

@@ -17,4 +17,14 @@ public class CyberLeg extends CyberLimbItem {
     public Slot getSlot() {
         return null;
     }
+
+    @Override
+    public int getEssenceCost() {
+        return 15;
+    }
+
+    @Override
+    public int getPowerRequirement() {
+        return 10;
+    }
 }

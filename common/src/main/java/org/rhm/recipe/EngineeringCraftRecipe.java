@@ -10,7 +10,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.rhm.registries.ComponentRegistry;
-import org.rhm.util.CyberUtil;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -33,9 +32,9 @@ public record EngineeringCraftRecipe(List<ItemStack> ingredients, ItemStack blue
 
     @Override
     public boolean matches(@NotNull EngineeringCraftInput input, @NotNull Level world) {
-        if (blueprint == null || blueprint.isEmpty() || (input.blueprint != null && !input.blueprint.isEmpty() &&
-            CyberUtil.getStringId(BuiltInRegistries.ITEM.getKey(input.blueprint().get(ComponentRegistry.BLUEPRINT_RESULT).getItem()))
-                .equals(CyberUtil.getStringId(BuiltInRegistries.ITEM.getKey(blueprint.get(ComponentRegistry.BLUEPRINT_RESULT).getItem()))))) {
+        if (blueprint == null || blueprint.isEmpty() || (input.blueprint != null && !input.blueprint.isEmpty() && input.blueprint.has(ComponentRegistry.BLUEPRINT_RESULT) &&
+            BuiltInRegistries.ITEM.getKey(input.blueprint().get(ComponentRegistry.BLUEPRINT_RESULT).getItem()).toString()
+                .equals(BuiltInRegistries.ITEM.getKey(blueprint.get(ComponentRegistry.BLUEPRINT_RESULT).getItem()).toString()))) {
 
             for (ItemStack ingredient : ingredients) {
                 boolean foundMatch = false;

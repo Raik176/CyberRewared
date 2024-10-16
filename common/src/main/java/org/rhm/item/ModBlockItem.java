@@ -17,6 +17,7 @@ public class ModBlockItem extends BlockItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag type) {
+        super.appendHoverText(stack, context, tooltip, type);
         for (String s : Component.translatable(getDescriptionId() + ".ttp").getString().split("\n")) {
             tooltip.add(Component.literal(s).withStyle(ChatFormatting.GRAY));
         }

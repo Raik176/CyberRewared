@@ -31,6 +31,7 @@ public abstract class CreativeInventoryScreenMixin extends EffectRenderingInvent
     @Inject(method = "renderBg", at = @At("TAIL"))
     public void drawBackground(GuiGraphics context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
         if (selectedTab == CyberRewaredMod.ITEM_GROUP) {
+
             context.blitSprite(cyberRewared$EXPANSION, leftPos + imageWidth, topPos, 29, imageHeight);
         }
     }

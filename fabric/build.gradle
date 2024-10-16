@@ -2,6 +2,20 @@ plugins {
     id "fabric-loom" version "1.7-SNAPSHOT"
 }
 
+loom {
+    runConfigs.configureEach {
+        ideConfigGenerated = true
+    }
+    runs {
+        client {
+            client()
+            programArgs("--username=Dev")
+        }
+    }
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+}
+
+
 dependencies {
     implementation project(path: ":common", configuration: "namedElements")
 
@@ -27,21 +41,15 @@ dependencies {
 
     modImplementation "curse.maven:jade-324717:${jade_id}"
     include modApi("teamreborn:energy:${tr_energy_version}")
+
+    testImplementation "net.fabricmc:fabric-loader-junit:${project.fabric_loader_version}"
+    testImplementation "org.mockito:mockito-core:${mockito_version}"
+}
+
+test {
+    useJUnitPlatform()
 }
 
 fabricApi {
     configureDataGeneration()
-}
-
-loom {
-    runConfigs.configureEach {
-        ideConfigGenerated = true
-    }
-    runs {
-        client {
-            client()
-            programArgs("--username=Dev")
-        }
-    }
-    accessWidenerPath = project(":common").loom.accessWidenerPath
 }

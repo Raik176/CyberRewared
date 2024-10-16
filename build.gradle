@@ -2,6 +2,7 @@
 
 plugins {
     id 'idea'
+    id "me.modmuss50.mod-publish-plugin" version "0.7.4"
 }
 
 group = project.maven_group
@@ -13,6 +14,7 @@ allprojects {
 subprojects {
     apply plugin: "java"
     apply plugin: "idea"
+    apply plugin: "me.modmuss50.mod-publish-plugin"
 
     base.archivesName.set("${mod_id}-${project.name}")
 
@@ -48,6 +50,8 @@ subprojects {
             name = "TerraformersMC" // Cloth Config Fallback
             url "https://maven.terraformersmc.com/releases/"
         }
+
+        mavenCentral()
     }
 
     processResources {
@@ -104,7 +108,7 @@ subprojects {
             from(project(":common").sourceSets.main.allSource)
         }
 
-        compileTestJava {
+        compileTestJava { // we don't want/need/use tests rn
             exclude '**/*'
         }
     }
@@ -127,5 +131,49 @@ subprojects {
                 'Build-On-Minecraft'      : minecraft_version
             ])
         }
+    }
+}
+
+project(":fabric").afterEvaluate { // have to put it in here cause else remapJar isn't found
+    publishMods {
+        type = ALPHA
+        changelog = "No changelog specified."
+
+        def modrinthCommon = modrinthOptions {
+            accessToken = providers.environmentVariable("MODRINTH_API_KEY")
+            projectId = "FNiV0xKx"
+            minecraftVersionRange {
+                start = "1.21"
+                end = "1.21.1"
+
+                includeSnapshots = true
+            }
+            projectDescription = providers.fileContents(layout.projectDirectory.file("readme.md")).asText.get()
+
+            embeds("common-network")
+            optional("cloth-config")
+            optional("jei")
+        }
+        modrinth("modrinthFabric") {
+            from modrinthCommon
+            modLoaders.add("fabric")
+            file = project(":fabric").remapJar.archiveFile
+
+            requires("fabric-api")
+            optional("modmenu")
+        }
+        modrinth("modrinthForge") {
+            from modrinthCommon
+            modLoaders.add("forge")
+            file = project(":forge").jar.archiveFile
+        }
+        modrinth("modrinthNeoforge") {
+            from modrinthCommon
+            modLoaders.add("neoforge")
+            file = project(":neoforge").jar.archiveFile
+        }
+
+        dryRun =
+            providers.environmentVariable("MODRINTH_API_KEY").getOrNull() == null
     }
 }

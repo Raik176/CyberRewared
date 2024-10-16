@@ -107,6 +107,12 @@ public class CyberRewaredDataGenerator implements DataGeneratorEntrypoint {
                 builder.add(CyberRewaredMod.MOD_ID + ".jei.scan", "Scanning");
                 builder.add(CyberRewaredMod.MOD_ID + ".jei.paper_ttp", "Add Paper for chance of obtaining Blueprint.");
 
+                builder.add(CyberItem.SCAVENGED_KEY, "Scavenged");
+                builder.add(CyberItem.MANUFACTURED_KEY, "Manufactured");
+                builder.add(CyberItem.SLOT_KEY, "%s slot");
+                builder.add(CyberItem.TOLERANCE_KEY, "Tolerance cost: %s");
+                builder.add(CyberItem.POWER_KEY, "Requires %s pow/s when in use");
+
                 builder.add(CyberRewaredMod.COMPONENT_TAG, "Cyber Component");
 
                 builder.add(ItemRegistry.CYBEREYES, "Cybereyes");
@@ -224,142 +230,6 @@ public class CyberRewaredDataGenerator implements DataGeneratorEntrypoint {
                 builder.add(ItemRegistry.NEURO_SYRINGE.getDescriptionId() + ".ttp", "Anti-Rejection (20:00)");
                 // This is so cursed but i don't wanna make another variable
                 builder.add(PotionRegistry.NEURO_POTION.value().getEffects().getFirst().getEffect().value(), "Anti-Rejection");
-            }
-        });
-
-        pack.addProvider((dataOutput, registryLookup) -> new LanguageProvider(dataOutput, "de_de", registryLookup) {
-            @Override
-            public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder builder) {
-                builder.add(CyberRewaredMod.MOD_ID + ".itemGroup", "Cyber Rewared");
-
-                // Config
-                builder.add("config." + CyberRewaredMod.MOD_ID + ".title", "Cyber Rewared Konfiguration");
-                for (Field field : Config.class.getDeclaredFields()) {
-                    ConfigTranslations translations = field.getAnnotation(ConfigTranslations.class);
-                    ConfigTranslation translationAnnotation = field.getAnnotation(ConfigTranslation.class);
-                    ConfigTranslation[] translationsArray;
-                    if (translations != null) {
-                        translationsArray = translations.value();
-                    } else if (translationAnnotation != null) {
-                        translationsArray = new ConfigTranslation[] {translationAnnotation};
-                    } else continue;
-                    boolean foundCurrentLocale = false;
-                    for (ConfigTranslation translation : translationsArray) {
-                        if (foundCurrentLocale) {
-                            throw new IllegalStateException("Multiple translations found for field: " + field.getName());
-                        }
-                        if (Objects.equals(translation.locale(), locale)) {
-                            foundCurrentLocale = true;
-                            String fieldName;
-                            try {
-                                fieldName = (String) field.get(null);
-                            } catch (IllegalAccessException e) {
-                                throw new RuntimeException("Access failed for field: " + field.getName(), e);
-                            }
-                            builder.add("config." + CyberRewaredMod.MOD_ID + ".option." + fieldName, translation.name());
-                            builder.add("config." + CyberRewaredMod.MOD_ID + ".option." + fieldName + ".ttp", String.join("\n",translation.description()));
-                        }
-                    }
-                }
-
-                // JEI
-                builder.add(CyberRewaredMod.MOD_ID + ".jei.smash", "Ingenieurwesen (Zerhämmern)");
-                builder.add(CyberRewaredMod.MOD_ID + ".jei.craft", "Ingenieurwesen (Crafting)");
-                builder.add(CyberRewaredMod.MOD_ID + ".jei.scan", "Scannen");
-                builder.add(CyberRewaredMod.MOD_ID + ".jei.paper_ttp", "Papier hinzufügen, um die Chance auf den Erhalt eines Bauplans zu erhöhen.");
-
-                builder.add(CyberRewaredMod.COMPONENT_TAG, "Cyber Komponente");
-
-                builder.add(ItemRegistry.CYBEREYES, "Cyberaugen");
-                builder.add(ItemRegistry.CYBERARM, "%s Cyberarm");
-                builder.add(ItemRegistry.CYBERLEG, "%s Cyberbein");
-
-                if (ItemRegistry.KATANA.isEmpty()) {
-                    throw new IllegalStateException("Running datagen without having all item's enabled. Please reset the config.");
-                }
-                builder.add(ItemRegistry.KATANA.get(), "Katana");
-
-                builder.add(ItemRegistry.BLUEPRINT, "%s Bauplan");
-                builder.add("item." + CyberRewaredMod.MOD_ID + ".blueprint.empty", "Leerer");
-                builder.add(ItemRegistry.BLUEPRINT.getDescriptionId() + ".empty_ttp", "Mit beliebigem Cyberware craften, um einen gültigen Bauplan zu erstellen.");
-                builder.add("item." + CyberRewaredMod.MOD_ID + ".limb.left", "Linkes");
-                builder.add("item." + CyberRewaredMod.MOD_ID + ".limb.right", "Rechtes");
-                builder.add(ItemRegistry.HUMAN_ARM, "%s Menschlicher Arm");                builder.add(ItemRegistry.HUMAN_LEG, "%s Menschliches Bein");
-                builder.add(ItemRegistry.XP_CAPSULE, "Experience Capsule");
-                builder.add(ItemRegistry.XP_CAPSULE.getDescriptionId() + ".ttp", "%s erfahrung gespeichert.");
-                builder.add(ItemRegistry.HUMAN_BONES, "Menschliche Knochen");
-                builder.add(ItemRegistry.HUMAN_BRAIN, "Menschliches Gehirn");
-                builder.add(ItemRegistry.HUMAN_EYES, "Menschliche Augen");
-                builder.add(ItemRegistry.HUMAN_HEART, "Menschliches Herz");
-                builder.add(ItemRegistry.HUMAN_LUNGS, "Menschliche Lunge");
-                builder.add(ItemRegistry.HUMAN_MUSCLES, "Menschliche Muskeln");
-                builder.add(ItemRegistry.HUMAN_SKIN, "Menschliche Haut");
-                builder.add(ItemRegistry.HUMAN_STOMACH, "Menschlicher Magen");
-                builder.add(ItemRegistry.HUMAN_LIVER, "Menschliche Niere");
-
-                builder.add(EntityRegistry.CYBERZOMBIE, "Cyberzombie");
-                builder.add(ItemRegistry.getSpawnEgg(EntityRegistry.CYBERZOMBIE), "Cyberzombie-Spawn-Ei");
-
-                builder.add(BlockRegistry.SCANNER, "Scanner");
-                builder.add(BlockRegistry.SCANNER.getDescriptionId() + ".ttp", "Analysiert Cyberware, um Baupläne zu erstellen.");
-                builder.add(CyberRewaredMod.MOD_ID + ".gui.percent", "%1$s%% Chance");
-                builder.add(CyberRewaredMod.MOD_ID + ".gui.insertPaper", "Papier einfügen");
-                builder.add(CyberRewaredMod.MOD_ID + ".gui.toScan", "Cyberware einfügen, um Scan zu starten.");
-                builder.add(CyberRewaredMod.MOD_ID + ".gui.scanProgress", "%s Übrig (%s/%s Ticks)");
-                builder.add(CyberRewaredMod.MOD_ID + ".gui.notScanning", "Warten auf Eingabe.");
-                builder.add(CyberRewaredMod.MOD_ID + ".gui.scannerSayings", String.join("\n", new String[]{
-                    "Synchronisiere Gedanken mit Server", "Eingehende Datenpakete zerkleinern", "Kompilierung von Tagträumen",
-                    "Optimierung der Kaffeekraft", "Suchen nach dem perfektem Algorithmus", "Übersetzen von Memes in Programmiersprache",
-                    "Erzeugen von Überraschungsfehlern", "Statistiken anfeuern", "Überschreiten von Bytegrenzen", "KERNEL PANIC! Startet neu",
-                    "Maschinensprache lernen", "Sich im Code verirren", "Bugs fangen", "Sich in der Pixelwelt verlieren",
-                    "Caching von Glücksmomenten", "Fehler als Features verkaufen", "Regeln des Codes brechen",
-                    "Variablen in der Wildnis fangen", "Debugging der Entscheidungen", "Sich in der Cloud verlieren"
-                }));
-
-                builder.add(BlockRegistry.BLUEPRINT_ARCHIVE, "Bauplan-Archiv");
-                builder.add(BlockRegistry.BLUEPRINT_ARCHIVE.getDescriptionId() + ".ttp", "Speichert Cyberware Baupläne.\nZugänglich über den Ingenieurstisch, wenn angrenzend.");
-
-                builder.add(BlockRegistry.COMPONENT_BOX, "Komponenten-Box");
-                builder.add(BlockRegistry.COMPONENT_BOX.getDescriptionId() + ".ttp", "Speichert Komponente.\nZugänglich über den Ingenieurstisch, wenn angrenzend.");
-
-                builder.add(BlockRegistry.ENGINEERING_TABLE, "Ingenieurstisch");
-                builder.add(BlockRegistry.ENGINEERING_TABLE.getDescriptionId() + ".ttp", "Wird verwendet, um Cyberware zu zerhämmern und zum erstellen");
-                builder.add(CyberRewaredMod.MOD_ID + ".gui.smash", "Garantie erlöschen");
-                builder.add(CyberRewaredMod.MOD_ID + ".gui.smash_chance", "%1$s%% Chance auf Bauplan");
-                // this is "to Destroy" in the original but i think salvage sounds better
-                builder.add(CyberRewaredMod.MOD_ID + ".gui.insertSalvage", "Cyberware einfügen, um es zu verwerten.");
-                builder.add(CyberRewaredMod.MOD_ID + ".gui.insertBlueprint", "Bauplan einfügen");
-
-                builder.add(BlockRegistry.SURGERY_CHAMBER, "Operationskammer");
-                builder.add(BlockRegistry.SURGERY_CHAMBER.getDescriptionId() + ".ttp", "Führt Operationen für den Robosurgeon durch.\nRechtsklick innerhalb, um zu aktivieren.");
-
-                builder.add(BlockRegistry.CHARGER, "Auflader");
-                builder.add(BlockRegistry.CHARGER.getDescriptionId() + ".ttp", "Lädt Entitäten mit Cyberware auf.\nAkzeptiert TR-Energie.");
-
-                builder.add(BlockRegistry.ROBOSURGEON, "Robosurgeon");
-                builder.add(BlockRegistry.ROBOSURGEON.getDescriptionId() + ".ttp", "Wird verwendet, um festzulegen, welches Cyberware installiert oder\nentfernt werden soll. Über eine Operationskammer platzieren, um\nes zu verwenden.");
-
-                builder.add(BlockRegistry.RADIO_KIT, "Radio Kit");
-                builder.add(BlockRegistry.RADIO_KIT.getDescriptionId() + ".ttp", "Erhöht die Spawnrate von Cyberzombies leicht.");
-
-                builder.add(BlockRegistry.RADIO_POST, "Radioturm Komponent");
-                builder.add(BlockRegistry.RADIO_POST.getDescriptionId() + ".ttp", "Konstruiert ein großes Radio. \nUm es zu formen: \n - Platziere 4 Schichten von 3x3 Komponenten. (3x4x3) \n - 6 Schichten einer einzelnen Komponente, zentriert \n   über der Basis.");
-
-                builder.add(ItemRegistry.ACTUATOR, "Aktuator");
-                builder.add(ItemRegistry.BIOREACTOR, "Bioreaktor");
-                builder.add(ItemRegistry.TITANIUM_MESH, "Titan-Gitter");
-                builder.add(ItemRegistry.SOLID_STATE_CIRCUITRY, "Schaltungstechnik");
-                builder.add(ItemRegistry.CHROME_PLATING, "Chrome-Platte");
-                builder.add(ItemRegistry.FIBER_OPTICS, "Faseroptik");
-                builder.add(ItemRegistry.FULLERENE_MICROSTRUCTURES, "Fulleren-Mikrostrukturen");
-                builder.add(ItemRegistry.SYNTHETIC_NERVES, "Synthetische Nerven");
-                builder.add(ItemRegistry.STORAGE_CELL, "Speicherzelle");
-                builder.add(ItemRegistry.MICROELECTRIC_CELLS, "Mikroelektrische Zellen");
-
-                builder.add(ItemRegistry.NEURO_SYRINGE, "Neuropozyne");
-                builder.add(ItemRegistry.NEURO_SYRINGE.getDescriptionId() + ".ttp", "Abstoßungshemmung (20:00)");
-                // This is so cursed but i don't wanna make another variable
-                builder.add(PotionRegistry.NEURO_POTION.value().getEffects().getFirst().getEffect().value(), "Abstoßungshemmung ");
             }
         });
     }

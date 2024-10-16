@@ -36,7 +36,6 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
-// TODO: probably switch to parchment so i can use this in neoforge
 @SuppressWarnings("unused")
 public class CyberRewaredMod {
     public static final String MOD_ID = "cyber_rewared";

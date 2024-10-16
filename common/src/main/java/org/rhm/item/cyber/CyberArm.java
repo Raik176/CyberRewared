@@ -17,4 +17,14 @@ public class CyberArm extends CyberLimbItem {
     public Slot getSlot() {
         return Slot.ARM;
     }
+
+    @Override
+    public int getEssenceCost() {
+        return 15;
+    }
+
+    @Override
+    public int getPowerRequirement() {
+        return 10;
+    }
 }

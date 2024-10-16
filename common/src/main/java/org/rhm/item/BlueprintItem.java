@@ -16,7 +16,10 @@ public class BlueprintItem extends Item {
     private final Component EMPTY_COMPONENT = Component.translatable("item." + CyberRewaredMod.MOD_ID + ".blueprint.empty");
 
     public BlueprintItem() {
-        super(new Properties().component(ComponentRegistry.BLUEPRINT_RESULT, ItemStack.EMPTY).component(ComponentRegistry.BLUEPRINT_SHOW_RECIPE, true));
+        super(new Properties()
+            .component(ComponentRegistry.BLUEPRINT_RESULT, null) // If we don't use null neoforge will complain
+            .component(ComponentRegistry.BLUEPRINT_SHOW_RECIPE, true)
+        );
     }
 
     @Override
@@ -38,6 +41,7 @@ public class BlueprintItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltip, @NotNull TooltipFlag type) {
+        super.appendHoverText(stack, context, tooltip, type);
         if (!stack.has(ComponentRegistry.BLUEPRINT_RESULT)
             || stack.get(ComponentRegistry.BLUEPRINT_RESULT) == null
             || Objects.requireNonNull(stack.get(ComponentRegistry.BLUEPRINT_RESULT)).isEmpty()) {
