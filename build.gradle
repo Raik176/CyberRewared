@@ -148,7 +148,14 @@ project(":fabric").afterEvaluate { // have to put it in here cause else remapJar
 
                 includeSnapshots = true
             }
-            projectDescription = providers.fileContents(layout.projectDirectory.file("readme.md")).asText.get()
+
+            def readmeFile = layout.projectDirectory.file("README.md")
+            if (readmeFile.asFile.exists()) {
+                def descriptionProvider = providers.fileContents(readmeFile)
+                projectDescription = descriptionProvider.asText.get()
+            } else {
+                println "WARN: Could not update modrinth description."
+            }
 
             embeds("common-network")
             optional("cloth-config")
