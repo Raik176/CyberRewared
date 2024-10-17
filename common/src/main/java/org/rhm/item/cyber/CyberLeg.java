@@ -15,7 +15,7 @@ public class CyberLeg extends CyberLimbItem {
 
     @Override
     public Slot getSlot() {
-        return null;
+        return Slot.LEG;
     }
 
     @Override

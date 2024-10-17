@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 // No way in hell am i making 2 models for each cybernetic item
 public class CyberModelTemplate extends ModelTemplate {
     private final boolean isScavenged;
+
     public CyberModelTemplate(boolean isScavenged) {
         super(Optional.empty(), Optional.empty());
         this.isScavenged = isScavenged;
@@ -25,7 +26,7 @@ public class CyberModelTemplate extends ModelTemplate {
         ResourceLocation actualLocation = isScavenged ? modelLocation.withSuffix("_scavenged") : modelLocation;
         modelOutput.accept(actualLocation, () -> {
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("parent", String.valueOf(isScavenged ?  modelLocation : ResourceLocation.withDefaultNamespace("item/generated")));
+            jsonObject.addProperty("parent", String.valueOf(isScavenged ? modelLocation : ResourceLocation.withDefaultNamespace("item/generated")));
 
             if (!isScavenged) {
                 JsonArray overrides = new JsonArray();
@@ -36,7 +37,7 @@ public class CyberModelTemplate extends ModelTemplate {
                     "model",
                     actualLocation + "_scavenged"
                 );
-                override.add("predicate",predicate);
+                override.add("predicate", predicate);
                 overrides.add(override);
 
                 jsonObject.add("overrides", overrides);

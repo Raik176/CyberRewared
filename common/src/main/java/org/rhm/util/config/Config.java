@@ -20,6 +20,9 @@ import java.util.Map;
 // This is a really weird dynamic class however i don't care lol. I know im really lazy and
 // I could've used Cloth's Autoconfig however it says not to use it on Server's and this should work
 public class Config {
+    public static final int VERSION = 0; // bump whenever you add/remove/modify a value
+
+
     @ConfigRange(minFloat = 1, maxFloat = 100)
     @ConfigDefault(floatValue = 15)
     @ConfigTranslation(name = "Engineering Table Blueprint Chance", description = {
@@ -27,18 +30,21 @@ public class Config {
         "in an Engineering Table."
     })
     public static final String ENGINEERING_CHANCE = "engineering_chance";
+
     @ConfigRange(minFloat = 1, maxFloat = 100)
     @ConfigDefault(floatValue = 5)
     @ConfigTranslation(name = "Natural Brute Chance", description = {
         "Chance to spawn a Brute instead of a normal Cyberzombie."
     })
     public static final String NATURAL_BRUTE_CHANCE = "natural_brute_chance";
+
     @ConfigRange(minInt = 1, maxInt = 50)
     @ConfigDefault(intValue = 25)
     @ConfigTranslation(name = "Critical Essence", description = {
         "Threshold below which you will take damage and require Anti-Rejection shots.",
     })
     public static final String CRITICAL_ESSENCE = "critical_essence";
+
     @ConfigDefault(boolValue = ConfigDefault.BoolState.TRUE)
     @ConfigTranslation(name = "Is Katana enabled", description = {
         "If true, Katana is enabled and can be obtained,\nif false, Katana is not obtainable",
@@ -46,6 +52,22 @@ public class Config {
     })
     @ConfigRequiresRestart
     public static final String KATANA_ENABLED = "katana_enabled";
+
+    @ConfigDefault(boolValue = ConfigDefault.BoolState.TRUE)
+    @ConfigTranslation(name = "Can Cyberentities Spawn", description = {
+        "If true, Cyberentities like the Cyberzombie will be able to replace their",
+        "Default counterpart."
+    })
+    public static final String CYBERENTITIES_ENABLED = "cyberentities_enabled";
+
+    @ConfigDefault(floatValue = 5)
+    @ConfigDepends(fields = {CYBERENTITIES_ENABLED})
+    @ConfigTranslation(name = "Cyberzombie Spawn Chance", description = {
+        "Base chance for a cyberzombie to replace a normal zombie"
+    })
+    public static final String CYBERZOMBIE_SPAWN_CHANCE = "cyberzombie_chance";
+
+
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final Map<String, Object> defaults = new HashMap<>();
     public static final Map<String, Object> values = new HashMap<>(defaults);

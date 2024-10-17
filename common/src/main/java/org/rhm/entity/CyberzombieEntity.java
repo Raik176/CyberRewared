@@ -21,6 +21,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.rhm.CyberRewaredMod;
+import org.rhm.registries.EntityRegistry;
 import org.rhm.util.config.Config;
 
 import java.util.Objects;
@@ -31,14 +32,25 @@ public class CyberzombieEntity extends Zombie {
     // originally was 1.2f
     private static final float BRUTE_SCALE = 1.1f;
 
+    public CyberzombieEntity(Level world) {
+        this(EntityRegistry.CYBERZOMBIE, world);
+    }
+
     public CyberzombieEntity(EntityType<? extends Zombie> entityType, Level world) {
         super(entityType, world);
+        this.entityData.set(BRUTE, false);
     }
 
     public static AttributeSupplier.Builder createCyberzombieAttributes() {
         AttributeSupplier.Builder builder = Zombie.createAttributes();
         builder.add(Attributes.MOVEMENT_SPEED, 0.27); // this is not in the base mod but i think it fits
         return builder;
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(BRUTE, false);
     }
 
     @Override

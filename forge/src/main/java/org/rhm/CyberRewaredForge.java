@@ -7,6 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -22,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -30,6 +32,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -88,6 +91,16 @@ public class CyberRewaredForge {
         modEventBus.addListener(this::entityAttributes);
         modEventBus.addListener(this::registerEvent);
 
+        // Misc
+        CyberRewaredMod.KEEP_CYBERWARE = GameRules.register(CyberRewaredMod.KEEP_CYBERWARE_KEY, GameRules.Category.DROPS, GameRules.BooleanValue.create(false));
+        // Events
+        modEventBus.addListener(this::entitySpawnEvent);
+    }
+
+    private void entitySpawnEvent(final EntityJoinLevelEvent event) {
+        if (event.getLevel() instanceof ServerLevel sl) {
+            CyberRewaredMod.entitySpawnEvent(event.getEntity(), sl);
+        }
     }
 
     private void registerEvent(final RegisterEvent event) {

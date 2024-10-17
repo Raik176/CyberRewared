@@ -17,6 +17,7 @@ import java.util.function.Supplier;
 public class CyberLimbModelTemplate extends ModelTemplate {
     private final boolean isScavenged;
     private final boolean isRight;
+
     public CyberLimbModelTemplate(boolean isScavenged, boolean isRight) {
         super(Optional.empty(), Optional.empty());
         this.isScavenged = isScavenged;
@@ -28,7 +29,7 @@ public class CyberLimbModelTemplate extends ModelTemplate {
         ResourceLocation actualLocation = (isScavenged ? modelLocation.withSuffix("_scavenged") : modelLocation).withSuffix(isRight ? "_right" : "");
         modelOutput.accept(actualLocation, () -> {
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("parent", String.valueOf((isScavenged || isRight) ?  modelLocation : ResourceLocation.withDefaultNamespace("item/generated")));
+            jsonObject.addProperty("parent", String.valueOf((isScavenged || isRight) ? modelLocation : ResourceLocation.withDefaultNamespace("item/generated")));
 
             if (!isScavenged && !isRight) {
                 JsonArray overrides = new JsonArray();
@@ -40,7 +41,7 @@ public class CyberLimbModelTemplate extends ModelTemplate {
                     "model",
                     actualLocation + "_scavenged"
                 );
-                override.add("predicate",predicate);
+                override.add("predicate", predicate);
                 overrides.add(override);
 
                 override = new JsonObject();
@@ -50,7 +51,7 @@ public class CyberLimbModelTemplate extends ModelTemplate {
                     "model",
                     actualLocation + "_right"
                 );
-                override.add("predicate",predicate);
+                override.add("predicate", predicate);
                 overrides.add(override);
 
                 override = new JsonObject();
@@ -61,7 +62,7 @@ public class CyberLimbModelTemplate extends ModelTemplate {
                     "model",
                     actualLocation + "_scavenged_right"
                 );
-                override.add("predicate",predicate);
+                override.add("predicate", predicate);
                 overrides.add(override);
 
                 jsonObject.add("overrides", overrides);

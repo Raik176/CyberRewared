@@ -16,26 +16,53 @@
 </div>
 
 # What's this?
+
 Cyber Rewared is a modern port of [Cyberware](https://github.com/Flaxbeard/Cyberware).
 The original mod only supported versions 1.9.4 through 1.10.2, however there have been several ports
 like [this one](https://github.com/An-Sar/Cyberware), which is for 1.12.
 
 # What does this mod do?
+
 This mod allows you to install cybernetic augments into yourself, which
 give you special abilities. For example, you can install cybereyes,
 which allow you to use the Targeting Overlay, which highlights nearby mobs.
 For more info check out the [Wiki](https://github.com/Raik176/CyberRewared/wiki)
 
 # What has been ported?
-- [x] Scanner
+
+#### This list might not be complete!
+
+- [ ] Scanner
+    - [x] Functionality
+    - [ ] Scanner moving model
 - [ ] Engineering Table
+    - [x] Functionality
+    - [ ] Engineering Table piston
 - [ ] Cyberzombie
-  - [x] Basic functionality
-  - [ ] Spawning
-  - [ ] Dropping Cyberware
+    - [x] Basic functionality
+    - [ ] Spawning
+    - [ ] Dropping Cyberware
 - [x] Blueprint Archive
-  - [x] Storing blueprints
-  - [ ] Accessing through Engineering table
+    - [x] Storing blueprints
+    - [ ] Accessing through Engineering table
 - [x] Component box
     - [x] Storing components
     - [ ] Accessing through Engineering table
+- [x] Cyberzombie
+    - [x] Spawning (Normal and Brute)
+    - [ ] Adding Cyberware, dropping, etc
+- [x] Most normal items
+    - [x] Components
+    - [ ] Cyberware
+    - [x] Human Organs
+- [ ] Surgery
+    - [ ] Surgery chamber door
+    - [ ] Robosurgeon functionality
+- [ ] Extra (These are not guaranteed to be added!)
+    - [ ] Advancements
+    - [ ] Cyberskeleton
+    - [ ] Heads
+    - [ ] Built-in Cyberware mod integrations
+    - [ ] Developer docs on wiki
+- [x] Removed
+    - [x] Large radio tower (beacon)

@@ -20,6 +20,8 @@ public abstract class CyberItem extends Item implements ICyberware, IScannable, 
     public static final String SLOT_KEY = CyberRewaredMod.MOD_ID + ".item.slot";
     public static final String TOLERANCE_KEY = CyberRewaredMod.MOD_ID + ".item.toleranceCost";
     public static final String POWER_KEY = CyberRewaredMod.MOD_ID + ".item.power";
+    public static final String REQUIRED_KEY = CyberRewaredMod.MOD_ID + ".item.required";
+    public static final String INCOMPATIBLE_KEY = CyberRewaredMod.MOD_ID + ".item.incompatible";
 
     public CyberItem(Properties settings) {
         super(settings.component(ComponentRegistry.SCAVENGED, false));
@@ -33,20 +35,45 @@ public abstract class CyberItem extends Item implements ICyberware, IScannable, 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+
+        boolean scavenged = false;
+        if (stack.has(ComponentRegistry.SCAVENGED)) {
+            scavenged = Boolean.TRUE.equals(stack.get(ComponentRegistry.SCAVENGED));
+        }
+
+
+        Component component = Component.translatable(getDescriptionId() + ".ttp");
+        if (!component.getString().equals(getDescriptionId() + ".ttp")) { // Automatically add custom tooltip, if it exists
+            tooltipComponents.addAll(CyberUtil.splitNewlineComponent(
+                component,
+                ChatFormatting.GRAY)
+            );
+        }
+
         if (getPowerRequirement() > 0) {
             tooltipComponents.add(
-                Component.translatable(POWER_KEY,getPowerRequirement()).withStyle(ChatFormatting.GREEN)
+                Component.translatable(POWER_KEY, getPowerRequirement()).withStyle(ChatFormatting.GREEN)
             );
         }
         tooltipComponents.add(
-            Component.translatable(TOLERANCE_KEY,getEssenceCost()).withStyle(ChatFormatting.DARK_PURPLE)
+            Component.translatable(TOLERANCE_KEY, scavenged ? CyberUtil.getScavengedEssenceCost(this) : getEssenceCost()).withStyle(ChatFormatting.DARK_PURPLE)
         );
         if (getSlot() != null) {
             tooltipComponents.add(
-                Component.translatable(SLOT_KEY,CyberUtil.toCamelCase(getSlot().name())).withStyle(ChatFormatting.RED)
+                Component.translatable(SLOT_KEY, CyberUtil.toCamelCase(getSlot().name())).withStyle(ChatFormatting.RED)
             );
         }
-        if (stack.has(ComponentRegistry.SCAVENGED)) {
+        if (getRequiredCyberware() != null) {
+            tooltipComponents.add(
+                Component.translatable(REQUIRED_KEY, CyberUtil.toCamelCase(getRequiredCyberware().getDescription().getString())).withStyle(ChatFormatting.AQUA)
+            );
+        }
+        if (getIncompatibleCyberware() != null) {
+            tooltipComponents.add(
+                Component.translatable(INCOMPATIBLE_KEY, CyberUtil.toCamelCase(getIncompatibleCyberware().getDescription().getString())).withStyle(ChatFormatting.LIGHT_PURPLE)
+            );
+        }
+        if (scavenged) {
             tooltipComponents.add(Component.translatable(
                 Boolean.TRUE.equals(stack.get(ComponentRegistry.SCAVENGED)) ? SCAVENGED_KEY : MANUFACTURED_KEY
             ).withStyle(ChatFormatting.GRAY));

@@ -2,6 +2,14 @@ package org.rhm.api;
 
 import net.minecraft.world.item.ItemStack;
 
+/**
+ * Interface representing an object that can be scanned to produce a result. Implementations of this interface define
+ * the scanning behavior, including the result of the scan, the time required, and additional scanning parameters.
+ * <p>
+ * This interface provides methods to determine the scan result, time, whether paper is required, the chance of success,
+ * and if the result can also be obtained through an Engineering Table.
+ * </p>
+ */
 public interface IScannable {
     /**
      * Retrieves the result of the scan, represented as an {@link ItemStack}.

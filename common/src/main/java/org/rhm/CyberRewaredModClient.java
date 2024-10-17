@@ -1,5 +1,6 @@
 package org.rhm;
 
+import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -10,10 +11,12 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.rhm.registries.PacketRegistry;
 import org.rhm.util.config.Config;
+import org.rhm.util.config.ConfigDepends;
 import org.rhm.util.config.ConfigRange;
 import org.rhm.util.config.ConfigRequiresRestart;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 
 public class CyberRewaredModClient {
     public static void init() {
@@ -32,6 +35,8 @@ public class CyberRewaredModClient {
         ConfigBuilder builder = ConfigBuilder.create();
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
         ConfigCategory general = builder.getOrCreateCategory(Component.literal("N/A")); // This isn't shown unless we have more than 1 tab
+
+        HashMap<String, AbstractConfigListEntry<?>> fields = new HashMap<>(); // only doing this so requirements work
 
         for (Field field : Config.class.getDeclaredFields()) {
             if (!field.getType().equals(String.class)) continue;
@@ -80,7 +85,17 @@ public class CyberRewaredModClient {
                 if (field.isAnnotationPresent(ConfigRequiresRestart.class)) {
                     genericFieldBuilder.requireRestart(true);
                 }
-                general.addEntry(genericFieldBuilder.build());
+                if (field.isAnnotationPresent(ConfigDepends.class)) {
+                    ConfigDepends depends = field.getAnnotation(ConfigDepends.class);
+                    for (String s : depends.fields()) {
+                        if (Config.values.containsKey(s) && Config.values.get(s) instanceof Boolean) {
+                            // TODO: i have no idea how requirements work in cloth config
+                        }
+                    }
+                }
+                AbstractConfigListEntry<?> entry = genericFieldBuilder.build();
+                general.addEntry(entry);
+                fields.put(fieldName, entry);
             }
         }
 

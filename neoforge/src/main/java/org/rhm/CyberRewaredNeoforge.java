@@ -6,6 +6,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -21,6 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -39,6 +41,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.rhm.gui.BlueprintArchiveScreen;
@@ -84,6 +87,17 @@ public class CyberRewaredNeoforge {
         modEventBus.addListener(this::creativeSetup);
         modEventBus.addListener(this::entityAttributes);
         modEventBus.addListener(this::registerEvent);
+
+        // Misc
+        CyberRewaredMod.KEEP_CYBERWARE = GameRules.register(CyberRewaredMod.KEEP_CYBERWARE_KEY, GameRules.Category.DROPS, GameRules.BooleanValue.create(false));
+        // Events
+        modEventBus.addListener(this::entitySpawnEvent);
+    }
+
+    private void entitySpawnEvent(final EntityJoinLevelEvent event) {
+        if (event.getLevel() instanceof ServerLevel sl) {
+            CyberRewaredMod.entitySpawnEvent(event.getEntity(), sl);
+        }
     }
 
     private void registerEvent(final RegisterEvent event) {

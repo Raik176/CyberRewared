@@ -1,4 +1,4 @@
-// 1.21.1	2024-10-16T19:31:53.3506122	Cyber Rewared/Model Definitions
+// 1.21.1	2024-10-17T19:07:48.4270637	Cyber Rewared/Model Definitions
 8fcb21a470146f4de68a6b5ead502286b78bdfcd assets\cyber_rewared\models\item\bioreactor.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets\cyber_rewared\models\item\cyberzombie_spawn_egg.json
 ff82eec7715f55f7479521f8525edb987d58b63c assets\cyber_rewared\models\item\human_brain.json
@@ -11,6 +11,7 @@ cbe18781efd117049a5bb5930ab5259fa88faa81 assets\cyber_rewared\models\item\human_
 ca575ec5353644e81ac1bd8bd058c3d4b3a6ddee assets\cyber_rewared\models\item\cyberleg_right.json
 228c40887bc9f0c17748e2db179210f1296a0bbc assets\cyber_rewared\models\item\human_skin.json
 6382dab876775b2992240163f66eb6cd43b5ea25 assets\cyber_rewared\models\item\cyberarm_scavenged_right.json
+b6da58390464c1603314b2fd5084496b0bf244ca assets\cyber_rewared\models\item\hudlens.json
 319c4c08b69ed181289a3b90d996b5ebc89d5e94 assets\cyber_rewared\models\item\cyberarm_scavenged.json
 668becd2d10fa487f016381d5bc595023e74b5ca assets\cyber_rewared\models\item\neuropozyne.json
 9588e69f6975ae6f27d4b50ca93c413a3a0e1190 assets\cyber_rewared\models\item\titanium_mesh.json
@@ -33,6 +34,7 @@ f37580dacc5bcc4650618343ca0c390ed3f887c9 assets\cyber_rewared\models\item\cyberl
 54ab06438cfa8e103cad8b802e453c499556e052 assets\cyber_rewared\models\item\solid_state_circuitry.json
 0880e4fc6fbd97259540e3ffc2e308c58b5f5897 assets\cyber_rewared\models\item\human_arm.json
 79fad0174d3c59091098603310fca079ea2527a6 assets\cyber_rewared\models\item\synthetic_nerves.json
+5c4f029a71591b226e4e5af9cdb58afba2c62d44 assets\cyber_rewared\models\item\hudlens_scavenged.json
 058fd4514c5ea7253ec6cb93a0d72dbaf486914d assets\cyber_rewared\models\item\actuator.json
 77c5151b8990cdedfd6a5b58fd5f71f7c80e7db4 assets\cyber_rewared\models\item\human_leg.json
 bf5dbb5d85682f4a70063ec8ffbcb2b8424f517f assets\cyber_rewared\models\item\human_stomach.json

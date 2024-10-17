@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.AbstractZombieRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 import org.rhm.CyberRewaredMod;
 import org.rhm.entity.CyberzombieEntity;
 import org.rhm.model.entity.CyberzombieEntityModel;
@@ -27,7 +28,7 @@ public class CyberzombieEntityRenderer extends AbstractZombieRenderer<Cyberzombi
     }
 
     @Override
-    public ResourceLocation getTextureLocation(CyberzombieEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(CyberzombieEntity entity) {
         return entity.isBrute() ? TEXTURE_BRUTE : TEXTURE_NORMAL;
     }
 

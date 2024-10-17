@@ -12,6 +12,7 @@ import org.rhm.item.*;
 import org.rhm.item.cyber.CyberArm;
 import org.rhm.item.cyber.CyberEyes;
 import org.rhm.item.cyber.CyberLeg;
+import org.rhm.item.cyber.Hudlens;
 import org.rhm.util.config.Config;
 
 import java.util.*;
@@ -26,6 +27,10 @@ public class ItemRegistry {
     public static final Item CYBEREYES = register(
         "cybereyes",
         new CyberEyes()
+    );
+    public static final Item HUDLENS = register(
+        "hudlens",
+        new Hudlens()
     );
     public static final Item CYBERARM = register(
         "cyberarm",

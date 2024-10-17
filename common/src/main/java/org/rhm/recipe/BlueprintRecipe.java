@@ -34,7 +34,7 @@ public class BlueprintRecipe extends CustomRecipe {
         boolean hasBlueprint = false;
         boolean hasItem = false;
 
-        for (ItemStack stack : input.items()) {
+        for (ItemStack stack : input.items()) { // probably not optimal
             if (stack.getItem() == ItemRegistry.BLUEPRINT) {
                 hasBlueprint = true;
             } else if (item.test(stack)) {

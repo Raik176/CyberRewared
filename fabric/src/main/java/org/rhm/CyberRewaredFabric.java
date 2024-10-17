@@ -4,6 +4,9 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
@@ -25,6 +28,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.phys.Vec3;
@@ -139,6 +143,11 @@ public class CyberRewaredFabric implements ModInitializer, ClientModInitializer 
                 }
             }).build();
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CyberRewaredMod.ITEM_GROUP_KEY, CyberRewaredMod.ITEM_GROUP);
+
+        // Misc
+        CyberRewaredMod.KEEP_CYBERWARE = GameRuleRegistry.register(CyberRewaredMod.KEEP_CYBERWARE_KEY, GameRules.Category.DROPS, GameRuleFactory.createBooleanRule(false));
+        // Events
+        ServerEntityEvents.ENTITY_LOAD.register(CyberRewaredMod::entitySpawnEvent);
     }
 
     @Override

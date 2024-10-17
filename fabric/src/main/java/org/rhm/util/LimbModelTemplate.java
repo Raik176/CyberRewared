@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 // This is just lazy but it is the way it is, eh?
 public class LimbModelTemplate extends ModelTemplate {
     private final boolean isRight;
+
     public LimbModelTemplate(boolean isRight) {
         super(Optional.empty(), Optional.empty());
         this.isRight = isRight;
@@ -25,7 +26,7 @@ public class LimbModelTemplate extends ModelTemplate {
         ResourceLocation actualLocation = isRight ? modelLocation.withSuffix("_right") : modelLocation;
         modelOutput.accept(actualLocation, () -> {
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("parent", String.valueOf(isRight ?  modelLocation : ResourceLocation.withDefaultNamespace("item/generated")));
+            jsonObject.addProperty("parent", String.valueOf(isRight ? modelLocation : ResourceLocation.withDefaultNamespace("item/generated")));
 
             if (!isRight) {
                 JsonArray overrides = new JsonArray();
@@ -36,7 +37,7 @@ public class LimbModelTemplate extends ModelTemplate {
                     "model",
                     actualLocation + "_right"
                 );
-                override.add("predicate",predicate);
+                override.add("predicate", predicate);
                 overrides.add(override);
 
                 jsonObject.add("overrides", overrides);

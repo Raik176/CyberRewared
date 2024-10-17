@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Block;
+import org.rhm.util.CyberUtil;
 
 import java.util.List;
 
@@ -18,8 +19,9 @@ public class ModBlockItem extends BlockItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag type) {
         super.appendHoverText(stack, context, tooltip, type);
-        for (String s : Component.translatable(getDescriptionId() + ".ttp").getString().split("\n")) {
-            tooltip.add(Component.literal(s).withStyle(ChatFormatting.GRAY));
-        }
+        tooltip.addAll(CyberUtil.splitNewlineComponent(
+            Component.translatable(getDescriptionId() + ".ttp"),
+            ChatFormatting.GRAY)
+        );
     }
 }

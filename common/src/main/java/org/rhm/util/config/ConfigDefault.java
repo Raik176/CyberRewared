@@ -16,7 +16,7 @@ public @interface ConfigDefault { // I'll never use any of these as config value
 
     BoolState boolValue() default BoolState.UNDEFINED;
 
-    enum BoolState { //Need to have a workaround for bools
+    enum BoolState { // Need to have a workaround for bools
         TRUE, FALSE, UNDEFINED
     }
 }

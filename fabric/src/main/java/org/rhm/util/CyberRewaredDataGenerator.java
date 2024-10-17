@@ -53,7 +53,8 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class CyberRewaredDataGenerator implements DataGeneratorEntrypoint {
-    public static final String IS_SCAVENGED = Objects.requireNonNull(BuiltInRegistries.DATA_COMPONENT_TYPE.getKey(ComponentRegistry.SCAVENGED)).toString();;
+    public static final String IS_SCAVENGED = Objects.requireNonNull(BuiltInRegistries.DATA_COMPONENT_TYPE.getKey(ComponentRegistry.SCAVENGED)).toString();
+    ;
     public static final String IS_RIGHT = Objects.requireNonNull(BuiltInRegistries.DATA_COMPONENT_TYPE.getKey(ComponentRegistry.IS_RIGHT)).toString();
 
     @Override
@@ -80,8 +81,10 @@ public class CyberRewaredDataGenerator implements DataGeneratorEntrypoint {
                     if (translations != null) {
                         translationsArray = translations.value();
                     } else if (translationAnnotation != null) {
-                        translationsArray = new ConfigTranslation[] {translationAnnotation};
-                    } else continue;
+                        translationsArray = new ConfigTranslation[]{translationAnnotation};
+                    } else {
+                        continue;
+                    }
                     boolean foundCurrentLocale = false;
                     for (ConfigTranslation translation : translationsArray) {
                         if (foundCurrentLocale) {
@@ -96,7 +99,7 @@ public class CyberRewaredDataGenerator implements DataGeneratorEntrypoint {
                                 throw new RuntimeException("Access failed for field: " + field.getName(), e);
                             }
                             builder.add("config." + CyberRewaredMod.MOD_ID + ".option." + fieldName, translation.name());
-                            builder.add("config." + CyberRewaredMod.MOD_ID + ".option." + fieldName + ".ttp", String.join("\n",translation.description()));
+                            builder.add("config." + CyberRewaredMod.MOD_ID + ".option." + fieldName + ".ttp", String.join("\n", translation.description()));
                         }
                     }
                 }
@@ -112,12 +115,19 @@ public class CyberRewaredDataGenerator implements DataGeneratorEntrypoint {
                 builder.add(CyberItem.SLOT_KEY, "%s slot");
                 builder.add(CyberItem.TOLERANCE_KEY, "Tolerance cost: %s");
                 builder.add(CyberItem.POWER_KEY, "Requires %s pow/s when in use");
+                builder.add(CyberItem.REQUIRED_KEY, "Requires %s");
+                builder.add(CyberItem.INCOMPATIBLE_KEY, "Incompatible with %s");
 
                 builder.add(CyberRewaredMod.COMPONENT_TAG, "Cyber Component");
 
                 builder.add(ItemRegistry.CYBEREYES, "Cybereyes");
+                builder.add(ItemRegistry.CYBEREYES.getDescriptionId() + ".ttp", "Immunity to Blindness\nEnables Cybereye upgrades.");
+
                 builder.add(ItemRegistry.CYBERARM, "%s Cyberarm");
+                builder.add(ItemRegistry.CYBERARM.getDescriptionId() + ".ttp", "Enables Cyberarm upgrades.");
+
                 builder.add(ItemRegistry.CYBERLEG, "%s Cyberleg");
+                builder.add(ItemRegistry.CYBERLEG.getDescriptionId() + ".ttp", "Enables Cyberleg upgrades.");
 
                 if (ItemRegistry.KATANA.isEmpty()) {
                     throw new IllegalStateException("Running datagen without having all item's enabled. Please reset the config.");
@@ -129,7 +139,8 @@ public class CyberRewaredDataGenerator implements DataGeneratorEntrypoint {
                 builder.add(ItemRegistry.BLUEPRINT.getDescriptionId() + ".empty_ttp", "Craft with any Cyberware to create valid Blueprint.");
                 builder.add("item." + CyberRewaredMod.MOD_ID + ".limb.left", "Left");
                 builder.add("item." + CyberRewaredMod.MOD_ID + ".limb.right", "Right");
-                builder.add(ItemRegistry.HUMAN_ARM, "Human %s Arm");                builder.add(ItemRegistry.HUMAN_LEG, "Human %s Leg");
+                builder.add(ItemRegistry.HUMAN_ARM, "Human %s Arm");
+                builder.add(ItemRegistry.HUMAN_LEG, "Human %s Leg");
                 builder.add(ItemRegistry.XP_CAPSULE, "Experience Capsule");
                 builder.add(ItemRegistry.XP_CAPSULE.getDescriptionId() + ".ttp", "%s recorded experience stored.");
                 builder.add(ItemRegistry.HUMAN_BONES, "Human Bones");
@@ -252,7 +263,7 @@ public class CyberRewaredDataGenerator implements DataGeneratorEntrypoint {
                     itemModelGenerator.generateFlatItem(modItem, ModelTemplates.FLAT_ITEM);
                 } else if (modItem instanceof LimbItem item) {
                     itemModelGenerator.generateFlatItem(item, new LimbModelTemplate(false));
-                    itemModelGenerator.generateFlatItem(item,new LimbModelTemplate(true));
+                    itemModelGenerator.generateFlatItem(item, new LimbModelTemplate(true));
                 } else if (modItem instanceof CyberLimbItem item) {
                     itemModelGenerator.generateFlatItem(item, new CyberLimbModelTemplate(false, false));
                     itemModelGenerator.generateFlatItem(item, new CyberLimbModelTemplate(true, false));
@@ -262,7 +273,7 @@ public class CyberRewaredDataGenerator implements DataGeneratorEntrypoint {
                     itemModelGenerator.generateFlatItem(item, new CyberModelTemplate(false));
                     itemModelGenerator.generateFlatItem(item, new CyberModelTemplate(true));
                 } else if (modItem instanceof TieredItem item) {
-                    itemModelGenerator.generateFlatItem(item ,ModelTemplates.FLAT_HANDHELD_ITEM);
+                    itemModelGenerator.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM);
                 } else if (modItem instanceof SpawnEggItem item) {
                     itemModelGenerator.generateFlatItem(item, new ModelTemplate(
                         Optional.of(ResourceLocation.withDefaultNamespace("item/template_spawn_egg")),
