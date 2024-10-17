@@ -1,6 +1,7 @@
 package org.rhm;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.Holder;
@@ -29,6 +30,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -51,6 +53,7 @@ import org.rhm.gui.SurgeryScreen;
 import org.rhm.item.CyberItem;
 import org.rhm.item.CyberLimbItem;
 import org.rhm.item.LimbItem;
+import org.rhm.overlay.CyberOverlay;
 import org.rhm.registries.ComponentRegistry;
 import org.rhm.registries.ItemRegistry;
 import org.rhm.registries.ScreenHandlerRegistry;
@@ -198,6 +201,11 @@ public class CyberRewaredForge {
 
     @Mod.EventBusSubscriber(modid = CyberRewaredMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
+
+        public static void onHudRender(CustomizeGuiOverlayEvent event) {
+            CyberOverlay.renderOverlay(event.getGuiGraphics(), event.getPartialTick());
+        }
+
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             MinecraftForge.registerConfigScreen(CyberRewaredModClient::getConfigScreen);

@@ -149,6 +149,7 @@ public class Config {
             return;
         }
 
+        values.put("version", "DONOTCHANGE:" + VERSION);
         try (FileWriter writer = new FileWriter(currentConfig)) {
             gson.toJson(values, writer);
         } catch (IOException e) {
@@ -169,6 +170,20 @@ public class Config {
         try (FileReader reader = new FileReader(file)) {
             JsonObject data = gson.fromJson(reader, JsonObject.class);
             if (data != null) {
+                if (!data.has("version")) {
+                    CyberRewaredMod.LOGGER.error("Config file doesn't have a version property. Will use default values.");
+                    return;
+                }
+                int version = data.get("version").getAsInt();
+                if (version != VERSION) {
+                    //TODO handle older/newer versions
+
+                    if (version > VERSION) {
+                        CyberRewaredMod.LOGGER.error("Config file uses newer version. Will use default values.");
+                        return;
+                    }
+                }
+                data.remove("version");
                 for (String s : data.keySet()) {
                     values.put(s, gson.fromJson(data.get(s), defaults.get(s).getClass()));
                 }

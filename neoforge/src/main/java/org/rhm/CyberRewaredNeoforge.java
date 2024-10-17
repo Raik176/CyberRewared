@@ -38,6 +38,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
@@ -52,6 +53,7 @@ import org.rhm.gui.SurgeryScreen;
 import org.rhm.item.CyberItem;
 import org.rhm.item.CyberLimbItem;
 import org.rhm.item.LimbItem;
+import org.rhm.overlay.CyberOverlay;
 import org.rhm.registries.ComponentRegistry;
 import org.rhm.registries.ItemRegistry;
 import org.rhm.registries.ScreenHandlerRegistry;
@@ -202,6 +204,11 @@ public class CyberRewaredNeoforge {
             event.register(ScreenHandlerRegistry.COMPONENT_BOX, ComponentBoxScreen::new);
             event.register(ScreenHandlerRegistry.ENGINEERING_TABLE, EngineeringTableScreen::new);
             event.register(ScreenHandlerRegistry.SURGERY, SurgeryScreen::new);
+        }
+
+        @SubscribeEvent
+        public static void onHudRender(RenderGuiEvent.Post event) {
+            CyberOverlay.renderOverlay(event.getGuiGraphics(), event.getPartialTick().getGameTimeDeltaTicks());
         }
 
         @SubscribeEvent

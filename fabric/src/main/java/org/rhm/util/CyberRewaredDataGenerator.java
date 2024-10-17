@@ -32,6 +32,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import org.rhm.CyberRewaredMod;
+import org.rhm.block.entity.RobosurgeonBlockEntity;
 import org.rhm.item.ComponentItem;
 import org.rhm.item.CyberItem;
 import org.rhm.item.CyberLimbItem;
@@ -218,6 +219,7 @@ public class CyberRewaredDataGenerator implements DataGeneratorEntrypoint {
                 builder.add(BlockRegistry.CHARGER.getDescriptionId() + ".ttp", "Charges entities with Cyberware.\nAccepts TR Energy.");
 
                 builder.add(BlockRegistry.ROBOSURGEON, "Robosurgeon");
+                builder.add(RobosurgeonBlockEntity.NO_CHAMBER_ERROR, "No surgery chamber. Place the Robosurgeon on top of a Surgery Chamber.");
                 builder.add(BlockRegistry.ROBOSURGEON.getDescriptionId() + ".ttp", "Used to set what Cyberware to install or remove.\nPlace on top of a Surgery Chamber to use.");
 
                 builder.add(BlockRegistry.RADIO_KIT, "Radio Kit");

@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
@@ -11,6 +12,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -42,6 +44,7 @@ import org.rhm.gui.SurgeryScreen;
 import org.rhm.item.CyberItem;
 import org.rhm.item.CyberLimbItem;
 import org.rhm.item.LimbItem;
+import org.rhm.overlay.CyberOverlay;
 import org.rhm.registries.BlockEntityRegistry;
 import org.rhm.registries.BlockRegistry;
 import org.rhm.registries.ComponentRegistry;
@@ -200,6 +203,7 @@ public class CyberRewaredFabric implements ModInitializer, ClientModInitializer 
                 );
             }
         }
+
         CyberRewaredMod.initClient();
 
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.RADIO_KIT, RenderType.cutout());
@@ -213,5 +217,11 @@ public class CyberRewaredFabric implements ModInitializer, ClientModInitializer 
         BlockEntityRenderers.register(BlockEntityRegistry.SCANNER, ScannerBlockEntityRenderer::new);
 
         EntityRendererRegistry.register(EntityRegistry.CYBERZOMBIE, CyberzombieEntityRenderer::new);
+
+        HudRenderCallback.EVENT.register((guiGraphics, deltaTracker) -> {
+            if (Minecraft.getInstance().screen == null) {
+                CyberOverlay.renderOverlay(guiGraphics, deltaTracker.getGameTimeDeltaTicks());
+            }
+        });
     }
 }

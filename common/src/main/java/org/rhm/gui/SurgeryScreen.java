@@ -4,9 +4,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.jetbrains.annotations.NotNull;
 import org.rhm.CyberRewaredMod;
 import org.rhm.util.config.Config;
@@ -19,6 +23,7 @@ public class SurgeryScreen extends AbstractContainerScreen<SurgeryScreenHandler>
     private final Inventory playerInv;
     private int centerX;
     private int centerY;
+    private InterfaceButton interfaceButton;
 
     public SurgeryScreen(SurgeryScreenHandler menu, Inventory playerInventory, Component ignoredTitle) {
         super(menu, playerInventory, Component.empty());
@@ -31,7 +36,7 @@ public class SurgeryScreen extends AbstractContainerScreen<SurgeryScreenHandler>
     protected void init() {
         super.init();
         recalculateCenters();
-        addWidget(new InterfaceButton(width - 25, centerY + 5, (widget) -> {
+        addRenderableWidget(interfaceButton = new InterfaceButton(leftPos + imageWidth - 5, topPos + 5, (widget) -> {
 
         }, InterfaceButton.Type.INDEX));
     }
@@ -58,6 +63,18 @@ public class SurgeryScreen extends AbstractContainerScreen<SurgeryScreenHandler>
     }
 
     @Override
+    public void mouseMoved(double mouseX, double mouseY) {
+        interfaceButton.mouseMoved(mouseX, mouseY);
+        super.mouseMoved(mouseX, mouseY);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        interfaceButton.mouseClicked(mouseX,mouseY, button);
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         guiGraphics.blit(TEXTURE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
 
@@ -69,6 +86,8 @@ public class SurgeryScreen extends AbstractContainerScreen<SurgeryScreenHandler>
         guiGraphics.blit(TEXTURE, centerX + 5, centerY + 5 + (49 - Math.min(warningEssence, essence)), 229, 61 + (49 - Math.min(warningEssence, essence)), 9, Math.max(0, Math.min(warningEssence, essence) - criticalEssence));
         guiGraphics.blit(TEXTURE, centerX + 5, centerY + 5 + (49 - Math.min(criticalEssence, essence)), 220, 61 + (49 - Math.min(criticalEssence, essence)), 9, Math.max(0, Math.min(criticalEssence, essence)));
         guiGraphics.blit(TEXTURE, centerX + 5, centerY + 5, 211, 61, 9, 49 - essence);
+
+        if (interfaceButton != null) interfaceButton.renderWidget(guiGraphics, mouseX, mouseY, partialTick);
     }
 
     @Override
@@ -91,21 +110,27 @@ public class SurgeryScreen extends AbstractContainerScreen<SurgeryScreenHandler>
 
         @Override
         protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+            if (!visible) return;
+            int x = getX() - type.width;
             float transparency = isHovered ? 0.6f : 0.4f;
+            System.out.println(transparency);
             guiGraphics.setColor(1, 1, 1, transparency);
             guiGraphics.blit(
                 TEXTURE,
-                getX(), getY(),
+                x, getY(),
                 type.left + type.width, type.top,
                 type.width, type.height
             );
+            guiGraphics.setColor(1,1,1,1);
+            /*
             guiGraphics.setColor(1, 1, 1, transparency / 2);
             guiGraphics.blit(
                 TEXTURE,
-                getX(), getY(),
+                x, getY(),
                 type.left, type.top,
                 type.width, type.height
             );
+            */
         }
 
         public enum Type {

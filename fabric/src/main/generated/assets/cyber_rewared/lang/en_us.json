@@ -15,6 +15,7 @@
   "block.cyber_rewared.robosurgeon.ttp": "Used to set what Cyberware to install or remove.\nPlace on top of a Surgery Chamber to use.",
   "block.cyber_rewared.scanner": "Scanner",
   "block.cyber_rewared.scanner.ttp": "Analyzes Cyberware to create Blueprints.",
+  "block.cyber_rewared.surgery.error": "No surgery chamber. Place the Robosurgeon on top of a Surgery Chamber.",
   "block.cyber_rewared.surgery_chamber": "Surgery Chamber",
   "block.cyber_rewared.surgery_chamber.ttp": "Performs Operations for the Robosurgeon.\nRight-click while inside to activate .",
   "config.cyber_rewared.option.critical_essence": "Critical Essence",
