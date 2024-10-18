@@ -3,6 +3,11 @@ package org.rhm.util.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.biome.Biomes;
 import org.jetbrains.annotations.NotNull;
 import org.rhm.CyberRewaredMod;
 
@@ -157,13 +162,13 @@ public class Config {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static void load(Path configFolder) {
         values.putAll(defaults);
         Path modConfigPath = configFolder.resolve(CyberRewaredMod.MOD_ID + ".json");
         File file = currentConfig = new File(String.valueOf(modConfigPath));
         if (!file.exists()) {
             CyberRewaredMod.LOGGER.warn("Config file doesn't exist. Will use default values.");
+            save(); // Generate a config with default values
             return;
         }
 
@@ -174,7 +179,7 @@ public class Config {
                     CyberRewaredMod.LOGGER.error("Config file doesn't have a version property. Will use default values.");
                     return;
                 }
-                int version = data.get("version").getAsInt();
+                int version = Integer.parseInt(data.get("version").getAsString().split(":")[1]);
                 if (version != VERSION) {
                     //TODO handle older/newer versions
 

@@ -113,7 +113,6 @@ public class SurgeryScreen extends AbstractContainerScreen<SurgeryScreenHandler>
             if (!visible) return;
             int x = getX() - type.width;
             float transparency = isHovered ? 0.6f : 0.4f;
-            System.out.println(transparency);
             guiGraphics.setColor(1, 1, 1, transparency);
             guiGraphics.blit(
                 TEXTURE,

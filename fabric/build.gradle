@@ -2,19 +2,32 @@ plugins {
     id "fabric-loom" version "1.7-SNAPSHOT"
 }
 
-loom {
-    runConfigs.configureEach {
-        ideConfigGenerated = true
+configurations.runtimeClasspath.incoming.afterResolve {
+    configurations.runtimeClasspath.resolvedConfiguration.resolvedArtifacts.each { artifact ->
+        if (artifact.name == "sponge-mixin") {
+            println "\nUse this to enable mixin hot-reloading:"
+            println "-javaagent:\"${artifact.file.absolutePath}\"\n"
+        }
     }
+}
+
+loom {
     runs {
         client {
             client()
+
             programArgs("--username=Dev")
+            vmArgs(
+                "-XX:+AllowEnhancedClassRedefinition",
+                "-javaagent:\"C:\\Users\\RHM\\scoop\\apps\\gradle\\current\\.gradle\\caches\\modules-2\\files-2.1\\net.fabricmc\\sponge-mixin\\0.15.3+mixin.0.8.7\\51ee0a44ab05f6fddd66b09e66b3a16904f9c55d\\sponge-mixin-0.15.3+mixin.0.8.7.jar\""
+            )
         }
+    }
+    runConfigs.configureEach {
+        ideConfigGenerated = true
     }
     accessWidenerPath = project(":common").loom.accessWidenerPath
 }
-
 
 dependencies {
     implementation project(path: ":common", configuration: "namedElements")

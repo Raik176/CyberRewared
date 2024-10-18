@@ -40,5 +40,12 @@
     "java": ">=21",
     "fabric-api": "*",
     "jei": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/sstFzru8Se"
+      }
+    }
   }
 }

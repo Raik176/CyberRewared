@@ -1,12 +1,13 @@
 package org.rhm.block.entity;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.rhm.registries.BlockEntityRegistry;
 
 import java.util.ArrayList;
@@ -39,48 +40,26 @@ public class RadioPostBlockEntity extends BlockEntity {
         setChanged();
     }
 
-    // this is so horrible
     @Override
-    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+    protected void saveAdditional(@NotNull CompoundTag nbt, HolderLookup.@NotNull Provider registryLookup) {
         super.saveAdditional(nbt, registryLookup);
         nbt.remove("centerBlock");
         nbt.remove("multiBlocks");
-        if (centerBlock != null) {
-            CompoundTag centerNbt = new CompoundTag();
-            centerNbt.putInt("x", centerBlock.getX());
-            centerNbt.putInt("y", centerBlock.getY());
-            centerNbt.putInt("z", centerBlock.getZ());
-            nbt.put("centerBlock", centerNbt);
-        }
-        ListTag multiBlocksList = new ListTag();
-        if (multiBlocks != null) {
-            for (BlockPos pos : multiBlocks) {
-                CompoundTag posNbt = new CompoundTag();
-                posNbt.putInt("x", pos.getX());
-                posNbt.putInt("y", pos.getY());
-                posNbt.putInt("z", pos.getZ());
-                multiBlocksList.add(posNbt);
-            }
-        }
-        nbt.put("multiBlocks", multiBlocksList);
+        if (centerBlock != null)
+            nbt.put("centerBlock", BlockPos.CODEC.encodeStart(NbtOps.INSTANCE, centerBlock).getOrThrow());
+        if (multiBlocks != null)
+            nbt.put("multiBlocks", Codec.list(BlockPos.CODEC).encodeStart(NbtOps.INSTANCE, multiBlocks).getOrThrow());
     }
 
     @Override
-    protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+    protected void loadAdditional(@NotNull CompoundTag nbt, HolderLookup.@NotNull Provider registryLookup) {
         super.loadAdditional(nbt, registryLookup);
 
-        if (nbt.contains("centerBlock")) {
-            CompoundTag centerNbt = nbt.getCompound("centerBlock");
-            centerBlock = new BlockPos(centerNbt.getInt("x"), centerNbt.getInt("y"), centerNbt.getInt("z"));
-        }
+        if (nbt.contains("centerBlock"))
+            centerBlock = BlockPos.CODEC.decode(NbtOps.INSTANCE, nbt.get("centerBlock")).getOrThrow().getFirst();
 
         multiBlocks = new ArrayList<>();
-        ListTag multiBlocksList = nbt.getList("multiBlocks", Tag.TAG_COMPOUND);
-
-        for (int i = 0; i < multiBlocksList.size(); i++) {
-            CompoundTag posNbt = multiBlocksList.getCompound(i);
-            BlockPos pos = new BlockPos(posNbt.getInt("x"), posNbt.getInt("y"), posNbt.getInt("z"));
-            multiBlocks.add(pos);
-        }
+        if (nbt.contains("multiBlocks"))
+            multiBlocks = Codec.list(BlockPos.CODEC).decode(NbtOps.INSTANCE, nbt.get("multiBlocks")).getOrThrow().getFirst();
     }
 }

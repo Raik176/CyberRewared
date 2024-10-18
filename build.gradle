@@ -89,7 +89,7 @@ subprojects {
         targetCompatibility = JavaVersion.VERSION_21
     }
 
-    if (project.name.contains("forge")) {
+    if (project.name != "common") {
         tasks.withType(JavaCompile).configureEach {
             source(project(":common").sourceSets.main.allSource)
         }
